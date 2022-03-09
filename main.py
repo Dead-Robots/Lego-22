@@ -6,8 +6,8 @@ from kipr import msleep
 
 def main():
     a.init()
-    # a.elevator_up()
-    d.drive_straight_1(75, 36)
+    d.pivot(30, 90, "l")
+    # d.drive_straight_1(75, 68)
     # a.get_rings(0, 15)
     # a.deliver_rings()
     # a.get_rings(50, 5500)

@@ -1,10 +1,12 @@
-from drive import drive_straight, right_pivot, left_pivot, spin
+from drive import drive_straight, right_pivot, pivot, spin, drive
 import constants as c
 from elevator import move_timed
 
 
 def init():
     print("Starting up")
+   # drive_straight(30, 5)
+   # right_pivot(30, 1000)
 
 
 def get_rings(height, distance):
