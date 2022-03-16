@@ -42,22 +42,41 @@ def drive_straight(power, inches):
     total_left = 0
     total_right = 0
 
-    while (total_left + total_right) / 2 < steves:
-        clear_motor_position_counter(c.LMOTOR)
-        clear_motor_position_counter(c.RMOTOR)
-        msleep(50)
-        l_position = abs(get_motor_position_counter(c.LMOTOR))  # abs to account for negative power
-        r_position = abs(get_motor_position_counter(c.RMOTOR))
-        total_left += l_position
-        total_right += r_position
-        p_error = (r_position * F - l_position)
-        i_error = total_right * F - total_left
-        print(l_position, r_position, p_error)
-        print(total_left, total_right)
-        l_speed += int(p * p_error + i * i_error)
-        r_speed -= int(p * p_error + i * i_error)
-        print(l_speed, r_speed)
-        drive(l_speed, r_speed)
+    if power > 0:
+        while (total_left + total_right) / 2 < steves:
+            clear_motor_position_counter(c.LMOTOR)
+            clear_motor_position_counter(c.RMOTOR)
+            msleep(50)
+            l_position = abs(get_motor_position_counter(c.LMOTOR))  # abs to account for negative power
+            r_position = abs(get_motor_position_counter(c.RMOTOR))
+            total_left += l_position
+            total_right += r_position
+            p_error = (r_position * F - l_position)
+            i_error = total_right * F - total_left
+            print(l_position, r_position, p_error)
+            print(total_left, total_right)
+            l_speed += int(p * p_error + i * i_error)
+            r_speed -= int(p * p_error + i * i_error)
+            print(l_speed, r_speed)
+            drive(l_speed, r_speed)
+
+    else:
+        while (total_left + total_right) / 2 < steves:
+            clear_motor_position_counter(c.LMOTOR)
+            clear_motor_position_counter(c.RMOTOR)
+            msleep(50)
+            l_position = abs(get_motor_position_counter(c.LMOTOR))  # abs to account for negative power
+            r_position = abs(get_motor_position_counter(c.RMOTOR))
+            total_left += l_position
+            total_right += r_position
+            p_error = (r_position * F - l_position)
+            i_error = total_right * F - total_left
+            print(l_position, r_position, p_error)
+            print(total_left, total_right)
+            l_speed -= int(p * p_error + i * i_error)
+            r_speed += int(p * p_error + i * i_error)
+            print(l_speed, r_speed)
+            drive(l_speed, r_speed)
 
     freeze_bot()
     print((total_left + total_right) / 2)
@@ -140,3 +159,11 @@ def spin(power, angle):
 
     freeze_bot()
     print((total_left + total_right) / 2)
+
+def drive_diagonal():
+    drive(-74, -70)
+    msleep(4900)
+    drive(0, 0)
+    msleep(500)
+    pivot(-50, 35, "l")
+
