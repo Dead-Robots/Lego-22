@@ -3,7 +3,7 @@ from drive import drive_straight, pivot, spin, drive, freeze_bot, drive_diagonal
 import constants as c
 from elevator import move_timed
 from kipr import motor, freeze, ao, msleep, motor_power, get_motor_position_counter, clear_motor_position_counter, \
-    enable_servos, disable_servos
+    enable_servos, disable_servos, push_button
 import servos as s
 
 
@@ -20,7 +20,21 @@ def start_position():
     msleep(100)
     s.move_servo(c.WRIST, c.WRIST_PARALLEL)
     msleep(100)
+    print("Push button to continue")
+    while not push_button():
+        pass
+    while push_button():
+        pass
+    msleep(500)
 
+
+def debug():
+    disable_servos()
+    freeze(c.RMOTOR)
+    freeze(c.LMOTOR)
+    freeze(c.ELEVATOR)
+    msleep(500)
+    exit(0)
 
 def get_rings(distance, height):
     drive_straight(-70, 6)
@@ -35,7 +49,7 @@ def get_rings(distance, height):
 
 
 def deliver_rings():
-    s.move_servo(c.ARM, 1340)  # moves arm so it doesn't hit the side pvc pipe
+    s.move_servo(c.ARM, 650)  # moves arm so it doesn't hit the side pvc pipe
     msleep(100)
     drive_straight(-70, 29)
     # can use to gyro to go until bump instead
@@ -46,7 +60,7 @@ def deliver_rings():
     msleep(500)
     drive_straight(-70, 6)
     msleep(500)
-    s.move_servo(c.ARM, 1340)  # moves arm so it doesn't hit the side pvc pipe
+    s.move_servo(c.ARM, 650)  # moves arm so it doesn't hit the side pvc pipe
     msleep(500)
 
 

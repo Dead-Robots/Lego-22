@@ -11,7 +11,6 @@ def drive(l_speed: int, r_speed: int):
     motor_power(c.RMOTOR, r_speed)
     motor_power(c.LMOTOR, l_speed)
 
-
 def drive_check():
     clear_motor_position_counter(c.LMOTOR)
     clear_motor_position_counter(c.RMOTOR)
@@ -159,6 +158,7 @@ def spin(power, angle):
 
     freeze_bot()
     print((total_left + total_right) / 2)
+
 
 def drive_diagonal():
     drive(-74, -70)
