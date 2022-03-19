@@ -79,7 +79,7 @@ def deliver_rings():
     s.move_servo(c.ARM, c.ARM_TO_LEFT)
     s.move_servo(c.WRIST, c.WRIST_TO_LEFT)
     # move forward to place rings on tube
-    drive_straight(70, 4)
+    drive_straight(70, 10)
     msleep(500)
     debug()
     drive_straight(-70, 6)
