@@ -6,17 +6,7 @@ from kipr import msleep, push_button
 
 def main():
     a.init()
-    a.start_position()
-    msleep(500)
-    a.get_rings(9, 0)
-    msleep(500)
-    a.deliver_rings()
-    a.debug()
-    msleep(500)
-    a.return_to_rings(2)
-    msleep(500)
-    a.deliver_rings()
-    msleep(500)
+    a.test_servo()
     a.shutdown()
 
 

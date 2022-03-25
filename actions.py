@@ -1,22 +1,30 @@
 import drive
-from drive import drive_straight, pivot, spin, drive, freeze_bot, drive_diagonal
+from drive import drive_straight, pivot, spin, drive, freeze_bot
 import constants as c
 from elevator import move_timed
 from kipr import motor, freeze, ao, msleep, motor_power, get_motor_position_counter, clear_motor_position_counter, \
     enable_servos, disable_servos, push_button, digital
-import servos as s
+import servo
 
 
 def init():
     print("Starting up")
     enable_servos()
-    # drive_straight(30, 5)
-    # right_pivot(30, 1000)
+
+
+def test_servo():
+    print("testing servos")
+    servo.set_servo_position(c.ARM, 0)
+    msleep(1000)
+    servo.move(c.ARM, 1002)
+    msleep(1000)
+    servo.move(c.ARM, 7)
+    print("done")
 
 
 def start_position():
     print("testing servos")
-    move_elevator_zero(30)
+    s.move_servo(30)
     msleep(100)
     s.move_servo(c.WRIST, c.WRIST_TO_LEFT)
     msleep(100)
@@ -97,44 +105,6 @@ def return_to_rings(distance):
     drive_straight(50, distance)  # drive forward
     msleep(500)
     drive_straight(-50, distance)
-
-
-def move_wrist_left(position):
-    s.move_servo(c.WRIST, position)
-    freeze(c.WRIST)
-
-
-def move_elevator_zero(power):
-    motor_power(c.ELEVATOR, -abs(power))
-    while not digital(c.ELEVATOR_SWITCH):
-        pass
-    motor_power(c.ELEVATOR, 25)
-    while digital(c.ELEVATOR_SWITCH):
-        pass
-    freeze(c.ELEVATOR)
-    clear_motor_position_counter(c.ELEVATOR)
-
-
-def move_elevator_down(power, height):
-    position = get_motor_position_counter(c.ELEVATOR)
-    while position > height:
-        print(position)
-        motor_power(c.ELEVATOR, -power)
-        position = get_motor_position_counter(c.ELEVATOR)
-    freeze(c.ELEVATOR)
-
-
-def move_elevator_up(power, height):
-    position = get_motor_position_counter(c.ELEVATOR)
-    while position < height:
-        print(position)
-        motor_power(c.ELEVATOR, power)
-        position = get_motor_position_counter(c.ELEVATOR)
-    freeze(c.ELEVATOR)
-
-
-def elevator_up():
-    move_timed(c.ELEVATOR, 50, 500)
 
 
 def shutdown():
