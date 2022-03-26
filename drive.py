@@ -1,5 +1,5 @@
 #!/usr/local/bin/python3.10 -u
-from kipr import motor, freeze, ao, msleep, motor_power, get_motor_position_counter, clear_motor_position_counter
+from kipr import motor, freeze, ao, msleep, motor_power, analog_et, get_motor_position_counter, clear_motor_position_counter
 from time import time
 
 import constants as c
@@ -82,13 +82,67 @@ def drive_straight(power, inches):
     print((total_left + total_right) / 2)
 
 
-def pivot(power, angle, direction):
+def drive_until_line(power):
+    clear_motor_position_counter(c.LMOTOR)
+    clear_motor_position_counter(c.RMOTOR)
+    drive(power, power)
+
+    F = 0.94
+
+    p = 0.25
+    i = 0.05
+    l_speed = power
+    r_speed = power
+    total_left = 0
+    total_right = 0
+
+    if power > 0:
+        while analog_et(0) < 3200:
+            clear_motor_position_counter(c.LMOTOR)
+            clear_motor_position_counter(c.RMOTOR)
+            msleep(50)
+            l_position = abs(get_motor_position_counter(c.LMOTOR))  # abs to account for negative power
+            r_position = abs(get_motor_position_counter(c.RMOTOR))
+            total_left += l_position
+            total_right += r_position
+            p_error = (r_position * F - l_position)
+            i_error = total_right * F - total_left
+            print(l_position, r_position, p_error)
+            print(total_left, total_right)
+            l_speed += int(p * p_error + i * i_error)
+            r_speed -= int(p * p_error + i * i_error)
+            print(l_speed, r_speed)
+            drive(l_speed, r_speed)
+
+    else:
+        while analog_et(0) < 3200:
+            clear_motor_position_counter(c.LMOTOR)
+            clear_motor_position_counter(c.RMOTOR)
+            msleep(50)
+            l_position = abs(get_motor_position_counter(c.LMOTOR))  # abs to account for negative power
+            r_position = abs(get_motor_position_counter(c.RMOTOR))
+            total_left += l_position
+            total_right += r_position
+            p_error = (r_position * F - l_position)
+            i_error = total_right * F - total_left
+            print(l_position, r_position, p_error)
+            print(total_left, total_right)
+            l_speed -= int(p * p_error + i * i_error)
+            r_speed += int(p * p_error + i * i_error)
+            print(l_speed, r_speed)
+            drive(l_speed, r_speed)
+
+    freeze_bot()
+    print((total_left + total_right) / 2)
+
+
+def pivot(power, angle, stationary_wheel):
     # angle in degrees
     clear_motor_position_counter(c.LMOTOR)
     clear_motor_position_counter(c.RMOTOR)
     inches = (angle * 12 * c.PI) // 360
     print("arc length", inches)
-    steves = inches * 180
+    steves = int(inches * 180)
 
     F = 0.94
 
@@ -114,9 +168,9 @@ def pivot(power, angle, direction):
         # l_speed += int(p * p_error + i * i_error)
         # r_speed -= int(p * p_error + i * i_error)
         print(l_speed, r_speed)
-        if direction == "l":
+        if stationary_wheel == "l":
             drive(0, r_speed)
-        if direction == "r":
+        if stationary_wheel == "r":
             drive(l_speed, 0)
 
     freeze_bot()

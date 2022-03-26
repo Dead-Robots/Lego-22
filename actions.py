@@ -1,8 +1,10 @@
+import kipr
+
 import drive
-from drive import drive_straight, pivot, spin, drive, freeze_bot
+from drive import drive_straight, pivot, spin, drive, freeze_bot, drive_until_line
 import constants as c
 from elevator import move_timed
-from kipr import motor, freeze, ao, msleep, motor_power, get_motor_position_counter, clear_motor_position_counter, \
+from kipr import motor, freeze, ao, msleep, motor_power, get_servo_position, set_servo_position, get_motor_position_counter, clear_motor_position_counter, \
     enable_servos, disable_servos, push_button, digital
 import servo
 
@@ -10,6 +12,15 @@ import servo
 def init():
     print("Starting up")
     enable_servos()
+    # test everything
+    servo.move(c.ARM, c.ARM_START)
+    servo.move(c.WRIST, c.WRIST_START)
+    print("push button to continue")
+    while not kipr.push_button():
+        pass
+    msleep(500)
+    drive_straight(-50, 5)
+    servo.start_servos_parallel()
 
 
 def test_servo():
@@ -22,7 +33,7 @@ def test_servo():
     print("done")
 
 
-def start_position():
+def start_position(): # not being used, delete
     print("testing servos")
     s.move_servo(30)
     msleep(100)
@@ -50,8 +61,6 @@ def start_position():
     print("Push button to continue")
     while not push_button():
         pass
-    while push_button():
-        pass
     msleep(500)
 
 
@@ -64,48 +73,48 @@ def debug():
     exit(0)
 
 
-def get_rings(distance, height):
-    drive_straight(-70, 6)
+def get_rings(arm_height_for_rings):
+    servo.move_servos_parallel(arm_height_for_rings)
     msleep(100)
-    s.move_servo(c.ARM, c.ARM_TO_MIDDLE)
-    move_elevator_up(40, 1000)
-    msleep(500)
-    # lift elevator to height
-    # position elevator at height 0 level to pick up top 3 rings
-    drive_straight(50, distance)  # drive forward
-    msleep(500)
-    move_elevator_up(40, 4300)
-    drive_straight(-50, distance)
-    # move_elevator_up(35, height)
+    drive_straight(50, 8)
+    print(get_servo_position(c.WRIST))
+    servo.move(c.WRIST, get_servo_position(c.WRIST)-200)
+    print(get_servo_position(c.WRIST))
+    servo.move_servos_parallel_with_drive(c.ARM_UP_MAX)
+
 
 
 def deliver_rings():
-    s.move_servo(c.ARM, c.ARM_TO_RIGHT)  # moves arm so it doesn't hit the side pvc pipe
-    msleep(100)
-    drive_straight(-70, 27)
-    # can use to gyro to go until bump instead
-    s.move_servo(c.ARM, c.ARM_TO_LEFT)
-    s.move_servo(c.WRIST, c.WRIST_TO_LEFT)
-    # move forward to place rings on tube
-    drive_straight(70, 10)
-    msleep(500)
-    debug()
-    drive_straight(-70, 6)
-    msleep(500)
-    s.move_servo(c.ARM, 650)  # moves arm so it doesn't hit the side pvc pipe
-    msleep(500)
+    drive_straight(-50, 12)
+    drive_until_line(-50)
+    drive_straight(-50, 1)
+    parallel_parking()
+    pivot(-50, 105, "r")
+    servo.move_servos_parallel(c.ARM_DELIVER_RINGS)
+    drive_straight(-50, 1)
+    servo.move_servos_parallel_with_drive(c.ARM_MIDDLE)
+    drive_straight(-50, 6)
 
 
-def return_to_rings(distance):
-    s.move_servo(c.WRIST, c.WRIST_PARALLEL)
-    msleep(100)
-    drive_straight(70, 29)
-    msleep(100)
-    s.move_servo(c.ARM, c.ARM_TO_MIDDLE)
-    drive_straight(50, distance)  # drive forward
-    msleep(500)
-    drive_straight(-50, distance)
+def parallel_parking():
+    pivot(-50, 20, "l")
+    drive_straight(-50, 6)
+    pivot(50, 15, "l")
+    drive_straight(50, 11)
+    pivot(-50, 8, "l")
+    drive_until_line(-50)
 
+def return_to_rings():
+    pivot(50, 20, "r")
+    servo.move(c.ARM, c.ARM_UP_MAX)
+    servo.move(c.WRIST, c.WRIST_FOR_ARM_UP_MAX)
+    drive_straight(60, 16)
+    pivot(-50, 78, "l")
+    drive_straight(60, 12)
+    servo.start_servos_parallel()
+    servo.move_servos_parallel(c.ARM_GET_RINGS_2)
+    drive_until_line(50)
+    get_rings(c.ARM_GET_RINGS_2)
 
 def shutdown():
     print("Shutting down")
