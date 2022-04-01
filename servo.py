@@ -2,6 +2,7 @@ from kipr import msleep, get_servo_position, set_servo_position
 import constants as c
 import drive as d
 
+
 def move(port: int, end_position: int, speed: int = 25):
     """
     For speed, 1 is very slow, and 100 is very fast
@@ -24,7 +25,7 @@ def start_servos_parallel():
     move(c.ARM, c.ARM_UP_MAX)
 
 
-def move_servos_parallel(arm_end_position: int, speed: int=15):
+def move_servos_parallel(arm_end_position: int, speed: int = 15):
     """
     For speed, 1 is very slow, and 100 is very fast
     """
@@ -41,13 +42,13 @@ def move_servos_parallel(arm_end_position: int, speed: int=15):
             arm_current_position = arm_end_position
         else:
             arm_current_position += speed
-            wrist_current_position -= int(speed*1.03)  # tilt the wrist slightly up
+            wrist_current_position -= int(speed * 1.03)  # tilt the wrist slightly up
         set_servo_position(c.ARM, arm_current_position)
         set_servo_position(c.WRIST, wrist_current_position)
         msleep(25)
 
 
-def move_servos_parallel_with_drive(arm_end_position: int, speed: int=15):
+def move_servos_parallel_with_drive(arm_end_position: int, speed: int = 15):
     """
     For speed, 1 is very slow, and 100 is very fast
     """
@@ -66,7 +67,8 @@ def move_servos_parallel_with_drive(arm_end_position: int, speed: int=15):
             arm_current_position = arm_end_position
         else:
             arm_current_position += speed
-            wrist_current_position -= int(speed*1.03)  # tilt the wrist slightly up
+            wrist_current_position -= int(speed * 1.03)  # tilt the wrist slightly up
         set_servo_position(c.ARM, arm_current_position)
         set_servo_position(c.WRIST, wrist_current_position)
         msleep(25)
+

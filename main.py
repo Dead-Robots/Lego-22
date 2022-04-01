@@ -2,7 +2,7 @@
 import actions as a
 import constants as c
 import drive as d
-from kipr import msleep, push_button
+from kipr import msleep, push_button, enable_servos
 
 
 def main():
@@ -10,6 +10,7 @@ def main():
     a.get_rings(c.ARM_GET_RINGS_1)
     a.deliver_rings()
     a.return_to_rings()
+    a.deliver_rings()
     a.shutdown()
 
 
