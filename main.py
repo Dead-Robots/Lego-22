@@ -7,10 +7,11 @@ from kipr import msleep, push_button, enable_servos
 
 def main():
     a.init()
-    a.get_rings(c.ARM_GET_RINGS_1)
+    a.get_rings_1()
     a.deliver_rings()
     a.return_to_rings()
-    a.deliver_rings()
+    a.get_rings_2()
+    a.deliver_rings_2()
     a.shutdown()
 
 

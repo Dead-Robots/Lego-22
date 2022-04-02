@@ -1,11 +1,12 @@
 #!/usr/local/bin/python3.10 -u
-from kipr import motor, freeze, ao, msleep, motor_power, analog_et, get_motor_position_counter, clear_motor_position_counter
+from kipr import motor, freeze, ao, msleep, motor_power, analog_et, get_motor_position_counter, \
+    clear_motor_position_counter
 from time import time
 
 import constants as c
 
-
 # clockwise is positive
+
 
 def drive(l_speed: int, r_speed: int):
     motor_power(c.RMOTOR, r_speed)
@@ -27,11 +28,11 @@ def freeze_bot():
     msleep(500)
 
 
-def drive_straight(power, inches):
+def drive_straight(power, inches, freeze=True):
     clear_motor_position_counter(c.LMOTOR)
     clear_motor_position_counter(c.RMOTOR)
     drive(power, power)
-    steves = inches * 180
+    steves = inches * 180.0
 
     F = 0.94
 
@@ -71,45 +72,11 @@ def drive_straight(power, inches):
             l_speed -= int(p * p_error + i * i_error)
             r_speed += int(p * p_error + i * i_error)
             drive(l_speed, r_speed)
-
-    freeze_bot()
-
-def drive_drift_to_left(power, inches):
-    clear_motor_position_counter(c.LMOTOR)
-    clear_motor_position_counter(c.RMOTOR)
-    drive(power, power)
-    steves = inches * 180
-
-    F = 0.94
-
-    l_speed = power
-    r_speed = power
-    total_left = 0
-    total_right = 0
-
-    if power > 0:
-        while (total_left + total_right) / 2 < steves:
-            clear_motor_position_counter(c.LMOTOR)
-            clear_motor_position_counter(c.RMOTOR)
-            msleep(50)
-            l_position = abs(get_motor_position_counter(c.LMOTOR))  # abs to account for negative power
-            r_position = abs(get_motor_position_counter(c.RMOTOR))
-            total_left += l_position
-            total_right += r_position
-            drive(l_speed, int(r_speed*1.15))
-
+    if freeze:
+        freeze_bot()
     else:
-        while (total_left + total_right) / 2 < steves:
-            clear_motor_position_counter(c.LMOTOR)
-            clear_motor_position_counter(c.RMOTOR)
-            msleep(50)
-            l_position = abs(get_motor_position_counter(c.LMOTOR))  # abs to account for negative power
-            r_position = abs(get_motor_position_counter(c.RMOTOR))
-            total_left += l_position
-            total_right += r_position
-            drive(l_speed, int(r_speed*1.15))
+        pass
 
-    freeze_bot()
 
 def drive_until_line(power):
     clear_motor_position_counter(c.LMOTOR)
@@ -233,4 +200,3 @@ def spin(power, angle):
         drive(l_speed, -r_speed)
 
     freeze_bot()
-

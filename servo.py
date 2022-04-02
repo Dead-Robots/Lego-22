@@ -71,4 +71,3 @@ def move_servos_parallel_with_drive(arm_end_position: int, speed: int = 15):
         set_servo_position(c.ARM, arm_current_position)
         set_servo_position(c.WRIST, wrist_current_position)
         msleep(25)
-
