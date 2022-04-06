@@ -8,10 +8,10 @@ from kipr import msleep, push_button, enable_servos
 def main():
     a.init()
     a.get_rings_1()
-    a.deliver_rings()
+    a.deliver_rings_1()
     a.return_to_rings()
-    a.get_rings_2()
-    a.deliver_rings_2()
+    #a.get_rings_2()
+    #a.deliver_rings_2()
     a.shutdown()
 
 

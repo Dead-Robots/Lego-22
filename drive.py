@@ -34,10 +34,10 @@ def drive_straight(power, inches, freeze=True):
     drive(power, power)
     steves = inches * 180.0
 
-    F = 0.94
+    F = 1.02
 
     p = 0.25
-    i = 0.05
+    i = 0.04
     l_speed = power
     r_speed = power
     total_left = 0

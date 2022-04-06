@@ -26,7 +26,8 @@ def init():
     start_time = time()
     msleep(500)
     drive_straight(-70, 5)
-    servo.start_servos_parallel()
+    servo.move(c.WRIST, c.WRIST_PICK_UP_1)
+    servo.move(c.ARM, c.ARM_PICK_UP_1)
 
 
 def test_servo():
@@ -49,33 +50,40 @@ def debug():
 
 
 def get_rings_1():
-    servo.move_servos_parallel(c.ARM_GET_RINGS_1)
-    msleep(100)
+    msleep(500)
     drive_straight(50, 8)
-    servo.move(c.WRIST, (get_servo_position(c.WRIST) - 200))
-    servo.move_servos_parallel_with_drive(c.ARM_UP_MAX)
+    msleep(500)
+    servo.move(c.WRIST, c.WRIST_TILT)
+    servo.move(c.ARM, c.ARM_UP_MAX)
+    msleep(500)
+    drive_straight(-50, 3)
+    servo.move(c.WRIST, c.WRIST_UP)
+    servo.move(c.ARM, c.ARM_UP)
 
 
 def get_rings_2():
-    servo.move_servos_parallel(c.ARM_GET_RINGS_2)
-    servo.move(c.WRIST, 70)  # tilt down
+    servo.move(c.WRIST_PICK_UP_2)
+    servo.move(c.ARM_PICK_UP_2)
     drive_straight(60, 5)
-    servo.move(c.WRIST, 0)  # tilt up
+
     servo.move_servos_parallel(c.ARM_GET_RINGS_1)
     servo.move(c.WRIST, get_servo_position(c.WRIST) - 200)
     servo.move_servos_parallel_with_drive(c.ARM_UP_MAX)
 
 
-def deliver_rings():
-    pivot(-50, 20, "l")
+def deliver_rings_1():
+    pivot(-50, 12, "r")
     drive_straight(-80, 12, False)
     drive_until_line(-80)
-    # parallel_parking()
-    pivot(-50, 105, "r")
-    servo.move_servos_parallel(c.ARM_DELIVER_RINGS)
-    drive_straight(-70, 1)
-    servo.move_servos_parallel_with_drive(c.ARM_MIDDLE)
-    drive_straight(-70, 6)
+    drive_straight(-80, 7)
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS-100)
+    msleep(500)
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS+20)
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS-30)
+    msleep(250)
+    drive_straight(40, 11)
+    servo.move(c.ARM, c.ARM_PRE_PUSH)
+    servo.move(c.WRIST, c.WRIST_PUSH)
 
 
 def deliver_rings_2():
@@ -92,6 +100,10 @@ def deliver_rings_2():
 
 
 def return_to_rings():
+    drive_straight(-70, 8)
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS)
+    servo.move(c.ARM, c.ARM_UP_MAX)
+    debug()
     pivot(70, 20, "r")
     servo.move(c.ARM, c.ARM_UP_MAX)
     servo.move(c.WRIST, c.WRIST_FOR_ARM_UP_MAX)
