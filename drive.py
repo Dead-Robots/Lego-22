@@ -26,7 +26,7 @@ def drive_straight(power, inches, freeze=True): # edited for blue bot
     drive(power, power)
     steves = inches * 180.0
 
-    F = 1.02
+    F = 0.96  # CLONE: 1.02
 
     p = 0.25
     i = 0.04
