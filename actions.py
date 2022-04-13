@@ -17,7 +17,7 @@ def init():
     print("Starting up")
     enable_servos()
     # add test everything
-    servo.move(c.ARM, c.ARM_PICK_UP_1)
+    servo.move(c.ARM, c.ARM_PICK_UP_1 + 75)
     servo.move(c.WRIST, c.WRIST_START)
     print("push button to continue")
     while not kipr.push_button():
@@ -50,10 +50,9 @@ def get_rings_1():
     drive_straight(-80, 5)
     servo.move(c.WRIST, c.WRIST_PICK_UP_1)
     drive_straight(60, 7)
-    servo.move(c.ARM, c.ARM_PICK_UP_1 - 75)
-    drive_straight(50, 0.5)
-    servo.move(c.WRIST, c.WRIST_TILT)
-    servo.move(c.ARM, c.ARM_UP_MAX)
+    servo.move(c.ARM, c.ARM_PICK_UP_1)
+    drive_straight(50, 0.3)
+    servo.move_servos_parallel_with_drive(c.ARM_UP_HIGH, 25)
     msleep(250)
     drive_straight(-70, 3)
     servo.move(c.WRIST, c.WRIST_UP)
@@ -96,8 +95,6 @@ def deliver_rings_2():
     drive_until_line(-80)
     drive_straight(-80, 5)
     pivot(-50, 10, "l")
-    while not kipr.push_button():
-        pass
     # need to make rings not fly out
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_2)
     msleep(500)
@@ -121,6 +118,7 @@ def return_to_rings():
     print("push button to continue")
     while not kipr.push_button():
         pass
+    print("I think the problem is here")
     drive_until_line(70)
     print("push button to continue")
     while not kipr.push_button():
