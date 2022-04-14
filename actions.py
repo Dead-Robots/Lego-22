@@ -82,22 +82,14 @@ def return_to_rings():
     pivot(-50, 15, "r")
     drive_straight(70, 12, False)
     drive_until_line(70)
-    print("return to rings 1")
-    while not kipr.push_button():
-        pass
     servo.move(c.WRIST, c.WRIST_PICK_UP_2)
     servo.move(c.ARM, c.ARM_PICK_UP_2)
     pivot(70, 12, "r")
-    print("return to rings 2")
-    while not kipr.push_button():
-        pass
+    msleep(500)
 
 
 def get_rings_2():
     drive_straight(60, 6)
-    print("push button to continue")
-    while not kipr.push_button():
-        pass
     servo.move(c.ARM, c.ARM_UP_MAX)
     msleep(250)
     drive_straight(-70, 3)
@@ -116,9 +108,6 @@ def deliver_rings_2():
     msleep(500)
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1)
     msleep(250)
-    print("button push 2")
-    while not kipr.push_button():
-        pass
     drive_straight(40, 13)
     servo.move(c.ARM, c.ARM_PRE_PUSH)
     servo.move(c.WRIST, c.WRIST_PUSH)
