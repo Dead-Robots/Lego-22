@@ -75,7 +75,7 @@ def drive_until_line(power): # edited for blue bot
     clear_motor_position_counter(c.RMOTOR)
     drive(power, power)
 
-    F = 1.02
+    F = 0.96  # CLONE: 1.02
 
     p = 0.25
     i = 0.04
