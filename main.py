@@ -1,8 +1,5 @@
 #!/usr/local/bin/python3.10 -u
 import actions as a
-import constants as c
-import drive as d
-from kipr import msleep, push_button, enable_servos
 
 
 def main():
