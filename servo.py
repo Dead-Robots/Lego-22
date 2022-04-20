@@ -20,7 +20,7 @@ def move(port: int, end_position: int, speed: int = 25):
         msleep(25)
 
 
-def move_servos_parallel(arm_end_position: int, speed: int = 15):
+def move_parallel(arm_end_position: int, speed: int = 15):
     """
     For speed, 1 is very slow, and 100 is very fast
     """
@@ -42,7 +42,7 @@ def move_servos_parallel(arm_end_position: int, speed: int = 15):
         msleep(25)
 
 
-def move_servos_parallel_with_drive(arm_end_position: int, speed: int = 15):
+def move_parallel_with_drive(arm_end_position: int, speed: int = 15):
     """
     For speed, 1 is very slow, and 100 is very fast
     """
@@ -53,8 +53,8 @@ def move_servos_parallel_with_drive(arm_end_position: int, speed: int = 15):
     if arm_current_position > arm_end_position:
         speed = -speed
 
-    drive.blind(-23, -25)
-    msleep(100)
+    drive.time_straight(-25, 100, False)
+
     while arm_current_position != arm_end_position:
         if abs(speed) > abs(arm_end_position - arm_current_position):
             arm_current_position = arm_end_position
@@ -64,3 +64,16 @@ def move_servos_parallel_with_drive(arm_end_position: int, speed: int = 15):
         set_servo_position(c.ARM, arm_current_position)
         set_servo_position(c.WRIST, wrist_current_position)
         msleep(25)
+
+
+def self_test():
+    print("testing servos")
+    move(c.WRIST, 900)
+    msleep(1000)
+    move(c.ARM, 1900)
+    msleep(1000)
+    move(c.ARM, 0)
+    msleep(1000)
+    move(c.WRIST, 2000)
+    msleep(1000)
+    print("done testing")

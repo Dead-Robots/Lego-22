@@ -1,5 +1,6 @@
 from kipr import msleep, motor_power, analog_et, get_motor_position_counter, \
     clear_motor_position_counter
+from time import time
 import constants as c
 import utilities as u
 
@@ -12,8 +13,13 @@ def blind(l_speed: int, r_speed: int):
     motor_power(c.LEFT_MOTOR, l_speed)
 
 
-def time_straight(power, time, freeze=True):  # edited for blue bot
-    end_time = time() + time
+def time_straight(power, drive_time, freeze=True):  # edited for blue bot
+    """
+    :param power: range -100 to 100
+    :param drive_time: milliseconds
+    :param freeze: True stops motors at end
+    """
+    end_time = time() + (drive_time/1000)
     clear_motor_position_counter(c.LEFT_MOTOR)
     clear_motor_position_counter(c.RIGHT_MOTOR)
     blind(power, power)
@@ -201,3 +207,15 @@ def spin(power, angle):  # not yet edited
         blind(l_speed, -r_speed)
 
     u.freeze_bot()
+
+
+def self_test():
+    print("testing motors")
+    blind(50, 50)
+    msleep(1000)
+    u.freeze_bot()
+    msleep(1000)
+    blind(-50, -50)
+    msleep(1000)
+    u.freeze_bot()
+    print("done testing")
