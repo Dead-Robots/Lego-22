@@ -13,7 +13,7 @@ def blind(l_speed: int, r_speed: int):
     motor_power(c.LEFT_MOTOR, l_speed)
 
 
-def time_straight(power, drive_time, freeze=True):  # edited for blue bot
+def time_straight(power, drive_time, freeze=True):
     """
     :param power: range -100 to 100
     :param drive_time: milliseconds
@@ -63,7 +63,7 @@ def distance_straight(power, inches, freeze=True):  # edited for blue bot
     blind(power, power)
     distance = inches * 180.0
 
-    F = 0.96  # CLONE: 1.02
+    F = 1.065  # CLONE: 1.02
 
     p = 0.25
     i = 0.04
@@ -96,12 +96,12 @@ def distance_straight(power, inches, freeze=True):  # edited for blue bot
         pass
 
 
-def until_line(power):  # edited for blue bot
+def until_line(power, sensor=c.BACK_TOPHAT):  # edited for blue bot
     clear_motor_position_counter(c.LEFT_MOTOR)
     clear_motor_position_counter(c.RIGHT_MOTOR)
     blind(power, power)
 
-    F = 0.96  # CLONE: 1.02
+    F = 1.065  # CLONE: 0.98
 
     p = 0.25
     i = 0.04
@@ -111,7 +111,7 @@ def until_line(power):  # edited for blue bot
     total_right = 0
 
     if power > 0:
-        while analog_et(0) < 3200:
+        while analog_et(sensor) < 3200:
             clear_motor_position_counter(c.LEFT_MOTOR)
             clear_motor_position_counter(c.RIGHT_MOTOR)
             msleep(50)
@@ -126,7 +126,7 @@ def until_line(power):  # edited for blue bot
             blind(l_speed, r_speed)
 
     else:
-        while analog_et(0) < 3200:
+        while analog_et(sensor) < 3200:
             clear_motor_position_counter(c.LEFT_MOTOR)
             clear_motor_position_counter(c.RIGHT_MOTOR)
             msleep(50)

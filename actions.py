@@ -1,4 +1,4 @@
-from kipr import msleep, enable_servos, disable_servos
+from kipr import msleep, enable_servos, disable_servos, analog_et
 from time import time
 import constants as c
 import utilities as u
@@ -22,10 +22,13 @@ def init():
 
 
 def get_rings_1():
-    drive.distance_straight(-80, 5)
+    drive.until_line(-80, c.FRONT_TOPHAT)
+    drive.pivot(50, 8, "l")
+    drive.until_line(60)
     servo.move(c.WRIST, c.WRIST_PICK_UP_1)
+    drive.pivot(-50, 10, "l")
     u.wait_for_button()
-    drive.distance_straight(60, 7)
+    drive.distance_straight(60, 4)
     drive.distance_straight(30, 1)
     u.wait_for_button()
     servo.move_parallel_with_drive(c.ARM_UP_HIGH, 25)
@@ -33,11 +36,10 @@ def get_rings_1():
     drive.distance_straight(-70, 3)
     servo.move(c.WRIST, c.WRIST_UP)
     servo.move(c.ARM, c.ARM_UP)
+    msleep(250)
 
 
 def deliver_rings_1():
-    drive.pivot(-50, 5, "r")
-    msleep(500)
     drive.distance_straight(-80, 12, False)
     drive.until_line(-80)
     drive.distance_straight(-80, 9)
@@ -55,12 +57,12 @@ def return_to_rings():
     drive.distance_straight(-70, 8)
     servo.move(c.WRIST, c.WRIST_START)
     servo.move(c.ARM, 200)
-    drive.pivot(-50, 10, "r")
+    drive.pivot(-50, 10, "l")
     drive.distance_straight(70, 12, False)
     drive.until_line(70)
     servo.move(c.WRIST, c.WRIST_PICK_UP_2)
     servo.move(c.ARM, c.ARM_PICK_UP_2)
-    drive.pivot(70, 2, "r")
+    drive.pivot(70, 2, "l")
 
 
 def get_rings_2():
@@ -72,11 +74,11 @@ def get_rings_2():
 
 
 def deliver_rings_2():
-    drive.pivot(-50, 18, "r")  # 24
+    drive.pivot(-50, 18, "l")  # 24
     drive.distance_straight(-80, 12, False)
     drive.until_line(-80)
     drive.distance_straight(-80, 9)
-    drive.pivot(-50, 10, "l")
+    drive.pivot(-50, 10, "r")
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 + 75)
     msleep(500)
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1)
