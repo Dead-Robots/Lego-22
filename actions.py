@@ -14,12 +14,12 @@ def init():
         print("I am prime")
     else:
         print("I am clone")
-    print("starting up")
+    print("starting up :)")
     enable_servos()
     # drive.self_test()
     # servo.self_test()
     servo.move(c.WRIST, c.WRIST_START)
-    servo.move(c.ARM, c.ARM_PICK_UP_1 + 75)
+    servo.move(c.ARM, c.ARM_PICK_UP_1)
     u.wait_for_button()
     global start_time
     start_time = time()

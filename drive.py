@@ -19,7 +19,7 @@ def time_straight(power, drive_time, freeze=True):
     :param drive_time: milliseconds
     :param freeze: True stops motors at end
     """
-    end_time = time() + (drive_time/1000)
+    end_time = time() + (drive_time / 1000)
     clear_motor_position_counter(c.LEFT_MOTOR)
     clear_motor_position_counter(c.RIGHT_MOTOR)
     blind(power, power)
@@ -156,10 +156,8 @@ def pivot(power, angle, stationary_wheel):  # edited now for new blue horizontal
     """
     clear_motor_position_counter(c.LEFT_MOTOR)
     clear_motor_position_counter(c.RIGHT_MOTOR)
-    arc_length = (angle * 12 * c.PI)
+    arc_length = (angle * 12 * c.PI) * 180 / 360 # need to edit this, functioning code in github
     print("arc length", arc_length)
-
-    K = 1.75
 
     speed = power
     total_left = 0
@@ -169,8 +167,8 @@ def pivot(power, angle, stationary_wheel):  # edited now for new blue horizontal
         clear_motor_position_counter(c.LEFT_MOTOR)
         clear_motor_position_counter(c.RIGHT_MOTOR)
         msleep(50)
-        l_position = abs(get_motor_position_counter(c.LEFT_MOTOR)) * K  # abs to account for negative power
-        r_position = abs(get_motor_position_counter(c.RIGHT_MOTOR)) * K
+        l_position = abs(get_motor_position_counter(c.LEFT_MOTOR))  # abs to account for negative power
+        r_position = abs(get_motor_position_counter(c.RIGHT_MOTOR))
         total_left += l_position
         total_right += r_position
         if stationary_wheel == "l":
