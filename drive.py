@@ -58,12 +58,15 @@ def time_straight(power, drive_time, freeze=True):
 
 
 def distance_straight(power, inches, freeze=True):  # edited for blue bot
+    """
+    :param power: range -100 to 100
+    :param inches: inches
+    :param freeze: True stops motors at end
+    """
     clear_motor_position_counter(c.LEFT_MOTOR)
     clear_motor_position_counter(c.RIGHT_MOTOR)
     blind(power, power)
     distance = inches * 180.0
-
-    F = 1.065  # CLONE: 1.02
 
     p = 0.25
     i = 0.04
@@ -80,8 +83,8 @@ def distance_straight(power, inches, freeze=True):  # edited for blue bot
         r_position = abs(get_motor_position_counter(c.RIGHT_MOTOR))
         total_left += l_position
         total_right += r_position
-        p_error = (r_position * F - l_position)
-        i_error = total_right * F - total_left
+        p_error = (r_position * c.F - l_position)
+        i_error = total_right * c.F - total_left
         if power > 0:
             l_speed += int(p * p_error + i * i_error)
             r_speed -= int(p * p_error + i * i_error)
@@ -101,8 +104,6 @@ def until_line(power, sensor=c.BACK_TOPHAT):  # edited for blue bot
     clear_motor_position_counter(c.RIGHT_MOTOR)
     blind(power, power)
 
-    F = 1.065  # CLONE: 0.98
-
     p = 0.25
     i = 0.04
     l_speed = power
@@ -119,8 +120,8 @@ def until_line(power, sensor=c.BACK_TOPHAT):  # edited for blue bot
             r_position = abs(get_motor_position_counter(c.RIGHT_MOTOR))
             total_left += l_position
             total_right += r_position
-            p_error = (r_position * F - l_position)
-            i_error = total_right * F - total_left
+            p_error = (r_position * c.F - l_position)
+            i_error = total_right * c.F - total_left
             l_speed += int(p * p_error + i * i_error)
             r_speed -= int(p * p_error + i * i_error)
             blind(l_speed, r_speed)
@@ -134,13 +135,13 @@ def until_line(power, sensor=c.BACK_TOPHAT):  # edited for blue bot
             r_position = abs(get_motor_position_counter(c.RIGHT_MOTOR))
             total_left += l_position
             total_right += r_position
-            p_error = (r_position * F - l_position)
-            i_error = total_right * F - total_left
-            print(l_position, r_position, p_error)
-            print(total_left, total_right)
+            p_error = (r_position * c.F - l_position)
+            i_error = total_right * c.F - total_left
+            # print(l_position, r_position, p_error)
+            # print(total_left, total_right)
             l_speed -= int(p * p_error + i * i_error)
             r_speed += int(p * p_error + i * i_error)
-            print(l_speed, r_speed)
+            # print(l_speed, r_speed)
             blind(l_speed, r_speed)
 
     u.freeze_bot()
@@ -148,12 +149,17 @@ def until_line(power, sensor=c.BACK_TOPHAT):  # edited for blue bot
 
 def pivot(power, angle, stationary_wheel):  # edited now for new blue horizontal deliver robot
     # angle in degrees
+    """
+    :param power: range -100 to 100
+    :param angle: degrees
+    :param stationary_wheel: "l" or "r"
+    """
     clear_motor_position_counter(c.LEFT_MOTOR)
     clear_motor_position_counter(c.RIGHT_MOTOR)
     arc_length = (angle * 12 * c.PI)
     print("arc length", arc_length)
 
-    F = 1.75
+    K = 1.75
 
     speed = power
     total_left = 0
@@ -163,48 +169,14 @@ def pivot(power, angle, stationary_wheel):  # edited now for new blue horizontal
         clear_motor_position_counter(c.LEFT_MOTOR)
         clear_motor_position_counter(c.RIGHT_MOTOR)
         msleep(50)
-        l_position = abs(get_motor_position_counter(c.LEFT_MOTOR)) * F  # abs to account for negative power
-        r_position = abs(get_motor_position_counter(c.RIGHT_MOTOR)) * F
+        l_position = abs(get_motor_position_counter(c.LEFT_MOTOR)) * K  # abs to account for negative power
+        r_position = abs(get_motor_position_counter(c.RIGHT_MOTOR)) * K
         total_left += l_position
         total_right += r_position
         if stationary_wheel == "l":
             blind(0, speed)
         if stationary_wheel == "r":
             blind(speed, 0)
-
-    u.freeze_bot()
-
-
-def spin(power, angle):  # not yet edited
-    # angle in degrees
-    clear_motor_position_counter(c.LEFT_MOTOR)
-    clear_motor_position_counter(c.RIGHT_MOTOR)
-    inches = (angle * 6 * c.PI) // 360
-    print("arc length", inches)
-    distance = inches * 180
-
-    F = 0.94
-
-    p = 0.25
-    i = 0.05
-    l_speed = power
-    r_speed = power
-    total_left = 0
-    total_right = 0
-
-    while total_right < distance and total_left < distance:
-        clear_motor_position_counter(c.LEFT_MOTOR)
-        clear_motor_position_counter(c.RIGHT_MOTOR)
-        msleep(50)
-        l_position = abs(get_motor_position_counter(c.LEFT_MOTOR)) * F  # abs to account for negative power
-        r_position = abs(get_motor_position_counter(c.RIGHT_MOTOR)) * F
-        total_left += l_position
-        total_right += r_position
-        p_error = (r_position - l_position)
-        i_error = total_right - total_left
-        # l_speed += int(p * p_error + i * i_error)
-        # r_speed -= int(p * p_error + i * i_error)
-        blind(l_speed, -r_speed)
 
     u.freeze_bot()
 
