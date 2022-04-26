@@ -148,15 +148,14 @@ def until_line(power, sensor=c.BACK_TOPHAT):  # edited for blue bot
 
 
 def pivot(power, angle, stationary_wheel):  # edited now for new blue horizontal deliver robot
-    # angle in degrees
     """
     :param power: range -100 to 100
     :param angle: degrees
-    :param stationary_wheel: "l" or "r"
+    :param stationary_wheel: "l" for left or "r" for right
     """
     clear_motor_position_counter(c.LEFT_MOTOR)
     clear_motor_position_counter(c.RIGHT_MOTOR)
-    arc_length = (angle * 12 * c.PI) * 180 / 360 # need to edit this, functioning code in github
+    arc_length = (angle * 12 * c.PI) * 180 / 360  # need to edit this, functioning code in github
     print("arc length", arc_length)
 
     speed = power

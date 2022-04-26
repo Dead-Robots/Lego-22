@@ -27,7 +27,10 @@ def init():
 
 def get_rings_1():
     drive.until_line(-80, c.FRONT_TOPHAT)
-    drive.pivot(50, 8, "l")
+    if c.IS_PRIME:
+        drive.pivot(50, 8, "l")
+    else:
+        drive.pivot(50, 18, "l")
     drive.until_line(60)
     servo.move(c.WRIST, c.WRIST_PICK_UP_1)
     drive.pivot(-50, 12, "l")
@@ -45,6 +48,8 @@ def deliver_rings_1():
     drive.distance_straight(-80, 12, False)
     drive.until_line(-80)
     drive.distance_straight(-80, 9)
+    if not c.IS_PRIME:
+        drive.pivot(50, 5, "l")
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 60)
     msleep(500)
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1)
@@ -82,6 +87,8 @@ def deliver_rings_2():
     drive.distance_straight(-80, 12, False)
     drive.until_line(-80)
     drive.distance_straight(-80, 9)
+    if not c.IS_PRIME:
+        drive.pivot(50, 5, "l")
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 + 75)
     msleep(250)
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1)

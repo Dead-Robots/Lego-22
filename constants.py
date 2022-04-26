@@ -11,7 +11,7 @@ else:
     ARM_OFFSET = 100
     # wrist offset is 0
     F = 0.995
-    K = 1.70 # 1.60
+    K = 1.70  # 1.60
 
 LEFT_MOTOR = 3
 RIGHT_MOTOR = 2
