@@ -46,6 +46,7 @@ def get_rings_1():
 
 def deliver_rings_1():
     drive.distance_straight(-80, 12, False)
+    drive.pivot(50, 5, "l")
     drive.until_line(-80)
     drive.distance_straight(-80, 9)
     if not c.IS_PRIME:
@@ -54,7 +55,9 @@ def deliver_rings_1():
     msleep(500)
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1)
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1)
-    drive.distance_straight(40, 13)
+    drive.distance_straight(40, 5)
+    drive.pivot(50, 5, "l")
+    drive.distance_straight(40, 8)
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 20)
     servo.move(c.ARM, c.ARM_PRE_PUSH)
     servo.move(c.WRIST, c.WRIST_PUSH)
@@ -73,7 +76,7 @@ def return_to_rings():
 
 
 def get_rings_2():
-    drive.pivot(-50, 12, "l")
+    drive.pivot(-50, 11, "l")
     drive.distance_straight(60, 6)
     servo.move_parallel_with_drive(c.ARM_UP_HIGH, 25)
     msleep(250)
@@ -85,10 +88,11 @@ def get_rings_2():
 
 def deliver_rings_2():
     drive.distance_straight(-80, 12, False)
+    drive.pivot(50, 5, "l")
     drive.until_line(-80)
     drive.distance_straight(-80, 9)
     if not c.IS_PRIME:
-        drive.pivot(50, 5, "l")
+        drive.pivot(50, 7, "l")
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 + 75)
     msleep(250)
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1)
