@@ -24,8 +24,6 @@ def time_straight(power, drive_time, freeze=True):
     clear_motor_position_counter(c.RIGHT_MOTOR)
     blind(power, power)
 
-    F = 0.96  # CLONE: 1.02
-
     p = 0.25
     i = 0.04
     l_speed = power
@@ -41,8 +39,8 @@ def time_straight(power, drive_time, freeze=True):
         r_position = abs(get_motor_position_counter(c.RIGHT_MOTOR))
         total_left += l_position
         total_right += r_position
-        p_error = (r_position * F - l_position)
-        i_error = total_right * F - total_left
+        p_error = (r_position * c.F - l_position)
+        i_error = total_right * c.F - total_left
         if power > 0:
             l_speed += int(p * p_error + i * i_error)
             r_speed -= int(p * p_error + i * i_error)
@@ -57,7 +55,7 @@ def time_straight(power, drive_time, freeze=True):
         pass
 
 
-def distance_straight(power, inches, freeze=True):  # edited for blue bot
+def distance_straight(power, inches, freeze=True):
     """
     :param power: range -100 to 100
     :param inches: inches
@@ -99,7 +97,7 @@ def distance_straight(power, inches, freeze=True):  # edited for blue bot
         pass
 
 
-def until_line(power, sensor=c.BACK_TOPHAT):  # edited for blue bot
+def until_line(power, sensor=c.BACK_TOPHAT):
     clear_motor_position_counter(c.LEFT_MOTOR)
     clear_motor_position_counter(c.RIGHT_MOTOR)
     blind(power, power)
@@ -147,7 +145,7 @@ def until_line(power, sensor=c.BACK_TOPHAT):  # edited for blue bot
     u.freeze_bot()
 
 
-def pivot(power, angle, stationary_wheel):  # edited now for new blue horizontal deliver robot
+def pivot(power, angle, stationary_wheel):
     """
     :param power: range -100 to 100
     :param angle: degrees
@@ -155,7 +153,7 @@ def pivot(power, angle, stationary_wheel):  # edited now for new blue horizontal
     """
     clear_motor_position_counter(c.LEFT_MOTOR)
     clear_motor_position_counter(c.RIGHT_MOTOR)
-    arc_length = (angle * 12 * c.PI) * 180 / 360  # need to edit this, functioning code in github
+    arc_length = (angle * 12 * c.PI) * 180 / 360
     print("arc length", arc_length)
 
     speed = power
@@ -180,11 +178,16 @@ def pivot(power, angle, stationary_wheel):  # edited now for new blue horizontal
 
 def self_test():
     print("testing motors")
-    blind(50, 50)
-    msleep(1000)
-    u.freeze_bot()
-    msleep(1000)
-    blind(-50, -50)
-    msleep(1000)
-    u.freeze_bot()
-    print("done testing")
+    distance_straight(50, 5)
+    msleep(500)
+    distance_straight(-50, 5)
+    msleep(500)
+    pivot(-50, 45, "l")
+    msleep(500)
+    pivot(-50, 45, "r")
+    msleep(500)
+    until_line(-50, c.FRONT_TOPHAT)
+    msleep(500)
+    until_line(50, c.BACK_TOPHAT)
+    msleep(500)
+    print("done testing motors")

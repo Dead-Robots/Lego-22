@@ -1,13 +1,10 @@
 #!/usr/local/bin/python3.10 -u
 import actions as a
-import drive
-import utilities
 
 
 def main():
+    a.power_on_self_test()
     a.init()
-    # drive.distance_straight(-80, 72)  # what we want to work on next time
-    # utilities.debug()
     a.get_rings_1()
     a.deliver_rings_1()
     a.return_to_rings()

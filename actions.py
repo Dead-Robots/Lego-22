@@ -9,15 +9,20 @@ import servo
 start_time = 0
 
 
-def init():
+def power_on_self_test():
     if c.IS_PRIME:
         print("I am prime")
     else:
         print("I am clone")
+    enable_servos()
+    servo.move(c.ARM, c.ARM_MID)
+    drive.self_test()
+    servo.self_test()
+
+
+def init():
     print("starting up :)")
     enable_servos()
-    # drive.self_test()
-    # servo.self_test()
     servo.move(c.WRIST, c.WRIST_START)
     servo.move(c.ARM, c.ARM_PICK_UP_1)
     u.wait_for_button()
@@ -28,7 +33,7 @@ def init():
 def get_rings_1():
     drive.until_line(-80, c.FRONT_TOPHAT)
     if c.IS_PRIME:
-        drive.pivot(50, 8, "l")
+        drive.pivot(50, 12, "l")
     else:
         drive.pivot(50, 18, "l")
     drive.until_line(60)
@@ -76,7 +81,7 @@ def return_to_rings():
 
 
 def get_rings_2():
-    drive.pivot(-50, 11, "l")
+    drive.pivot(-50, 12, "l")
     drive.distance_straight(60, 6)
     servo.move_parallel_with_drive(c.ARM_UP_HIGH, 25)
     msleep(250)

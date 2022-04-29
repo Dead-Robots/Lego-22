@@ -21,6 +21,3 @@ def debug():
     freeze(c.LEFT_MOTOR)
     msleep(500)
     exit(0)
-
-
-
