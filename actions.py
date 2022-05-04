@@ -23,6 +23,9 @@ def power_on_self_test():
 def init():
     print("starting up :)")
     enable_servos()
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1)
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 60)
+    u.wait_for_button()
     servo.move(c.WRIST, c.WRIST_START)
     servo.move(c.ARM, c.ARM_PICK_UP_1)
     u.wait_for_button()
@@ -32,11 +35,10 @@ def init():
 
 def get_rings_1():
     drive.until_line(-80, c.FRONT_TOPHAT)
-    drive.pivot(50, 18, "l")
-    # if c.IS_PRIME:
-    #     drive.pivot(50, 12, "l")
-    # else:
-    #     drive.pivot(50, 18, "l")
+    if c.IS_PRIME:
+        drive.pivot(50, 19, "l")
+    else:
+        drive.pivot(50, 18, "l")
     drive.until_line(60)
     servo.move(c.WRIST, c.WRIST_PICK_UP_1)
     drive.pivot(-50, 12, "l")
@@ -59,11 +61,12 @@ def deliver_rings_1():
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 60)
     msleep(500)
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1)
-    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1)
+    # servo.move(c.ARM, c.ARM_DELIVER_RINGS_1)
     drive.distance_straight(40, 5)
-    if not c.IS_PRIME:
-        drive.pivot(50, 3, "l")
+    # if not c.IS_PRIME:
+    #     drive.pivot(50, 3, "l")
     drive.distance_straight(40, 8)
+    u.wait_for_button()
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 20)
     servo.move(c.ARM, c.ARM_PRE_PUSH)
     servo.move(c.WRIST, c.WRIST_PUSH)
@@ -97,7 +100,7 @@ def deliver_rings_2():
     drive.pivot(50, 5, "l")
     drive.until_line(-80)
     drive.distance_straight(-80, 9)
-    drive.pivot(50, 7, "l")
+    drive.pivot(50, 5, "l")
     # if c.IS_PRIME:
     #     drive.pivot(-50, 3, "l")
     # else:
