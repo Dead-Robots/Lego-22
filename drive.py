@@ -110,7 +110,7 @@ def until_line(power, sensor=c.BACK_TOPHAT):
     total_right = 0
 
     if power > 0:
-        while analog_et(sensor) < 3200:
+        while analog_et(sensor) < c.BLACK:
             clear_motor_position_counter(c.LEFT_MOTOR)
             clear_motor_position_counter(c.RIGHT_MOTOR)
             msleep(50)
@@ -125,7 +125,7 @@ def until_line(power, sensor=c.BACK_TOPHAT):
             blind(l_speed, r_speed)
 
     else:
-        while analog_et(sensor) < 3200:
+        while analog_et(sensor) < c.BLACK:
             clear_motor_position_counter(c.LEFT_MOTOR)
             clear_motor_position_counter(c.RIGHT_MOTOR)
             msleep(50)
@@ -186,8 +186,8 @@ def self_test():
     msleep(250)
     pivot(-80, 45, "r")
     msleep(250)
-    until_line(-80, c.FRONT_TOPHAT)
+    until_line(-50, c.FRONT_TOPHAT)
     msleep(250)
-    until_line(80, c.BACK_TOPHAT)
+    until_line(50, c.BACK_TOPHAT)
     msleep(250)
     print("done testing motors")
