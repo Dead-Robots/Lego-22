@@ -106,7 +106,7 @@ def deliver_rings_2():
     #     drive.pivot(50, 2, "l")
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 + 75)
     msleep(250)
-    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1)
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 20) # originally has + 0
     msleep(250)
     drive.distance_straight(40, 13)
     servo.move(c.ARM, c.ARM_PRE_PUSH)
