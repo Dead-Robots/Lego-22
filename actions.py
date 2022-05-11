@@ -28,7 +28,9 @@ def init():
     enable_servos()
     servo.move(c.WRIST, c.WRIST_START)
     servo.move(c.ARM, c.ARM_PICK_UP_1)
-    u.wait_for_button()  # wait for light
+    u.calibrate(c.START_LIGHT)
+    u.wait_4(c.START_LIGHT)
+    # u.wait_for_button()  # wait for light
     global start_time
     start_time = time()
 
