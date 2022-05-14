@@ -6,7 +6,7 @@ ALL PORTS:
 - right motor: 2
 - back tophat: 0
 - front tophat: 1
-- arm servo: 0
+- arm servo: 2
 - wrist servo: 1
 - clone switch: 0
 """
@@ -30,7 +30,7 @@ FRONT_TOPHAT = 1
 START_LIGHT = 2
 START_LIGHT_THRESHOLD = 0
 
-ARM = 0
+ARM = 2
 WRIST = 1
 
 BLACK = 2000
