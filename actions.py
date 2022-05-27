@@ -86,7 +86,7 @@ def return_to_rings():
 
 
 def get_rings_2():
-    drive.pivot(-50, 15, "l")
+    drive.pivot(-50, 15, "l") 
     drive.distance_straight(60, 6)
     servo.move_parallel_with_drive(c.ARM_UP_HIGH, 25)
     msleep(250)
