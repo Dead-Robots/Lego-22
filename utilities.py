@@ -22,6 +22,7 @@ def debug():
     msleep(500)
     exit(0)
 
+
 def calibrate(port):
     print("Press button with light on")
     while not push_button():
