@@ -65,13 +65,13 @@ def deliver_rings_1():
     drive.pivot(50, 5, "l")
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 150)
     msleep(500)
-    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 90)
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 100)
     # servo.move(c.ARM, c.ARM_DELIVER_RINGS_1)
     drive.distance_straight(40, 5)
     # if not c.IS_PRIME:
     #     drive.pivot(50, 3, "l")
     drive.distance_straight(40, 8)
-    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 20)
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 30)
     servo.move(c.ARM, c.ARM_PRE_PUSH)
     servo.move(c.WRIST, c.WRIST_PUSH)
 
@@ -112,10 +112,9 @@ def deliver_rings_2():
     msleep(250)
     servo.move(c.WRIST, c.WRIST_UP - 60)
     msleep(250)
-    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 + 25)  # TRY DECREASING THIS VALUE NEXT TIME (HIGHER)
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 70)  # TRY DECREASING THIS VALUE NEXT TIME (HIGHER)
     msleep(250)
-    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 - 150)
-    u.wait_for_button()
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 - 60)  # was 150
     msleep(250)
     drive.distance_straight(40, 13)
     servo.move(c.ARM, c.ARM_PRE_PUSH)
