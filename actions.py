@@ -1,10 +1,10 @@
-from kipr import msleep, enable_servos, disable_servos, analog_et
+from kipr import msleep, enable_servos, disable_servos, analog_et, a_button, b_button, \
+    c_button
 from time import time
 import constants as c
 import utilities as u
 import drive
 import servo
-
 
 start_time = 0
 
@@ -21,17 +21,34 @@ def power_on_self_test():
     servo.self_test()
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1)
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 60)
+    adjust_height()
     u.wait_for_button()
 
+offset = 0
+
+def adjust_height():
+    print("A increase height, B decrease, C when done")
+    starting_arm = c.ARM_DELIVER_RINGS_1 - 60
+    starting_wrist = c.WRIST_DELIVER_RINGS_1
+    global offset
+    while True:
+        servo.move(c.ARM, starting_arm + offset)
+        servo.move(c.WRIST, starting_wrist - offset)
+        if a_button():
+            offset -= 25
+        elif b_button():
+            offset += 25
+        elif c_button():
+            break
+    print("height adjusted! :D")
 
 def init():
     print("starting up :)")
     enable_servos()
     servo.move(c.WRIST, c.WRIST_START)
     servo.move(c.ARM, c.ARM_PICK_UP_1)
-    u.calibrate(c.START_LIGHT)
-    u.wait_4(c.START_LIGHT)
-    # u.wait_for_button()  # wait for light
+    # u.wait_4_light()
+    u.wait_for_button()  # wait for light
     global start_time
     start_time = time()
 
@@ -62,12 +79,13 @@ def deliver_rings_1():
     drive.pivot(50, 5, "l")
     drive.until_line(-50)
     drive.distance_straight(-80, 9)
-    drive.pivot(50, 5, "l")
-    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 150)
+    # drive.pivot(50, 5, "l")
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 100 + offset)  # - 150
     msleep(500)
-    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 100)
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 100 - offset)
     # servo.move(c.ARM, c.ARM_DELIVER_RINGS_1)
     drive.distance_straight(40, 5)
+    u.wait_for_button()
     # if not c.IS_PRIME:
     #     drive.pivot(50, 3, "l")
     drive.distance_straight(40, 8)
