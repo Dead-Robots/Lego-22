@@ -35,9 +35,9 @@ def adjust_height():
         servo.move(c.ARM, starting_arm + offset)
         servo.move(c.WRIST, starting_wrist - offset)
         if a_button():
-            offset -= 25
+            offset -= 15 #25
         elif b_button():
-            offset += 25
+            offset += 15 #25
         elif c_button():
             break
     print("height adjusted! :D")
@@ -80,18 +80,17 @@ def deliver_rings_1():
     drive.until_line(-50)
     drive.distance_straight(-80, 9)
     # drive.pivot(50, 5, "l")
-    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 100 + offset)  # - 150
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 100 + offset)  # -150
     msleep(500)
-    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 100 - offset)
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 70 - offset)  # 100
     # servo.move(c.ARM, c.ARM_DELIVER_RINGS_1)
-    drive.distance_straight(40, 5)
-    u.wait_for_button()
-    # if not c.IS_PRIME:
-    #     drive.pivot(50, 3, "l")
-    drive.distance_straight(40, 8)
-    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 30)
-    servo.move(c.ARM, c.ARM_PRE_PUSH)
-    servo.move(c.WRIST, c.WRIST_PUSH)
+    drive.distance_straight(40, 12.5)  # 12
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 50 + offset)
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 - offset)
+    drive.distance_straight(40, 0.5)
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 30 - offset)
+    servo.move(c.ARM, c.ARM_PRE_PUSH + offset)
+    servo.move(c.WRIST, c.WRIST_PUSH - offset)
 
 
 def return_to_rings():
@@ -130,13 +129,13 @@ def deliver_rings_2():
     msleep(250)
     servo.move(c.WRIST, c.WRIST_UP - 60)
     msleep(250)
-    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 70)  # TRY DECREASING THIS VALUE NEXT TIME (HIGHER)
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 70 + offset)  # TRY DECREASING THIS VALUE NEXT TIME (HIGHER)
     msleep(250)
-    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 - 60)  # was 150
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 - 60 - offset)  # was 150
     msleep(250)
     drive.distance_straight(40, 13)
-    servo.move(c.ARM, c.ARM_PRE_PUSH)
-    servo.move(c.WRIST, c.WRIST_PUSH)
+    servo.move(c.ARM, c.ARM_PRE_PUSH + offset)
+    servo.move(c.WRIST, c.WRIST_PUSH - offset)
 
 
 def shutdown():
