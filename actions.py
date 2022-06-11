@@ -102,7 +102,7 @@ def return_to_rings():
     drive.until_line(50, c.FRONT_TOPHAT)  # straightens out in case the wheel gets caught
     drive.pivot(50, 5, "l")
     drive.until_line(50)
-    servo.move(c.WRIST, c.WRIST_PICK_UP_2)
+    servo.move(c.WRIST, c.WRIST_PICK_UP_2+ (0 if c.IS_PRIME else 100))
     servo.move(c.ARM, c.ARM_PICK_UP_2)
 
 
