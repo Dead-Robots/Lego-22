@@ -76,7 +76,9 @@ def get_rings_1():
 def deliver_rings_1():
     print("deliver rings 1")
     drive.distance_straight(-80, 12, False)
+    u.wait_for_button()
     drive.pivot(50, 5, "l")
+    u.wait_for_button()
     drive.until_line(-50)
     drive.distance_straight(-80, 9)
     # drive.pivot(50, 5, "l")
