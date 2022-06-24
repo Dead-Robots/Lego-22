@@ -76,11 +76,13 @@ def get_rings_1():
 def deliver_rings_1():
     print("deliver rings 1")
     drive.distance_straight(-80, 12, False)
-    u.wait_for_button()
     drive.pivot(50, 5, "l")
-    u.wait_for_button()
     drive.until_line(-50)
     drive.distance_straight(-80, 9)
+    if c.IS_PRIME:
+        pass #prime working without pivot so don't want to mess with it
+    else:
+        drive.pivot(50, 5, "l")  #added bc front wheel on clone is not on wall so left side of claw snags on pipe
     # drive.pivot(50, 5, "l")
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 100 + offset)  # -150
     msleep(500)
