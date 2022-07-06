@@ -3,13 +3,14 @@ import actions as a
 
 
 def main():
-    a.power_on_self_test()
+    # a.power_on_self_test()
     a.init()
-    a.get_rings_1()
-    a.deliver_rings_1()
-    a.return_to_rings()
-    a.get_rings_2()
-    a.deliver_rings_2()
+    # a.get_rings_1()
+    # a.deliver_rings_1()
+    # a.return_to_rings()
+    # a.get_rings_2()
+    # a.deliver_rings_2()
+    a.release_tennis_balls()
     a.shutdown()
 
 

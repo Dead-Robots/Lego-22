@@ -24,7 +24,9 @@ def power_on_self_test():
     adjust_height()
     u.wait_for_button()
 
+
 offset = 0
+
 
 def adjust_height():
     print("A increase height, B decrease, C when done")
@@ -35,12 +37,13 @@ def adjust_height():
         servo.move(c.ARM, starting_arm + offset)
         servo.move(c.WRIST, starting_wrist - offset)
         if a_button():
-            offset -= 15 #25
+            offset -= 15  # 25
         elif b_button():
-            offset += 15 #25
+            offset += 15  # 25
         elif c_button():
             break
     print("height adjusted! :D")
+
 
 def init():
     print("starting up :)")
@@ -80,9 +83,9 @@ def deliver_rings_1():
     drive.until_line(-50)
     drive.distance_straight(-80, 9)
     if c.IS_PRIME:
-        pass #prime working without pivot so don't want to mess with it
+        pass  # prime working without pivot so don't want to mess with it
     else:
-        drive.pivot(50, 5, "l")  #added bc front wheel on clone is not on wall so left side of claw snags on pipe
+        drive.pivot(50, 5, "l")  # added bc front wheel on clone is not on wall so left side of claw snags on pipe
     # drive.pivot(50, 5, "l")
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 100 + offset)  # -150
     msleep(500)
@@ -106,13 +109,13 @@ def return_to_rings():
     drive.until_line(50, c.FRONT_TOPHAT)  # straightens out in case the wheel gets caught
     drive.pivot(50, 5, "l")
     drive.until_line(50)
-    servo.move(c.WRIST, c.WRIST_PICK_UP_2+ (0 if c.IS_PRIME else 100))
+    servo.move(c.WRIST, c.WRIST_PICK_UP_2 + (0 if c.IS_PRIME else 100))
     servo.move(c.ARM, c.ARM_PICK_UP_2)
 
 
 def get_rings_2():
     print("get rings 2")
-    drive.pivot(-50, 15, "l")
+    drive.pivot(-50, 12, "l")  # angle used to be 15 - test for prime
     drive.distance_straight(60, 6)
     servo.move_parallel_with_drive(c.ARM_UP_HIGH, 25)
     msleep(250)
@@ -135,12 +138,26 @@ def deliver_rings_2():
     msleep(250)
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 70 + offset)  # TRY DECREASING THIS VALUE NEXT TIME (HIGHER)
     msleep(250)
-    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 - 60 - offset)  # was 150
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 - 50 - offset)  # was 150
     msleep(250)
     drive.distance_straight(40, 13)
     servo.move(c.ARM, c.ARM_PRE_PUSH + offset)
     servo.move(c.WRIST, c.WRIST_PUSH - offset)
 
+
+def release_tennis_balls():
+    servo.move(c.ARM, c.ARM_PRE_PUSH + offset) # temporary
+    servo.move(c.WRIST, c.WRIST_PUSH - offset)
+    u.wait_for_button()
+    drive.until_line(-70, c.BACK_TOPHAT)
+    drive.distance_straight(-70, 9)
+    drive.pivot(70, 100, "r")
+    drive.until_line(70, c.FRONT_TOPHAT)
+    drive.until_line(70, c.BACK_TOPHAT)
+    drive.pivot(-70, 188, "l")
+    u.wait_for_button()
+    drive.until_line(-70, c.FRONT_TOPHAT)
+    # move stick
 
 def shutdown():
     print("run time:", time() - start_time)
