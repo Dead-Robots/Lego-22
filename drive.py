@@ -97,7 +97,7 @@ def distance_straight(power, inches, freeze=True):
         pass
 
 
-def until_line(power, sensor=c.BACK_TOPHAT):
+def until_line(power, sensor=c.BACK_TOPHAT, freeze=True):
     clear_motor_position_counter(c.LEFT_MOTOR)
     clear_motor_position_counter(c.RIGHT_MOTOR)
     blind(power, power)
@@ -141,8 +141,9 @@ def until_line(power, sensor=c.BACK_TOPHAT):
             r_speed += int(p * p_error + i * i_error)
             # print(l_speed, r_speed)
             blind(l_speed, r_speed)
+    if freeze:
+        u.freeze_bot()
 
-    u.freeze_bot()
 
 
 def pivot(power, angle, stationary_wheel):

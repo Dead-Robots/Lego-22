@@ -68,12 +68,12 @@ def move_parallel_with_drive(arm_end_position: int, speed: int = 15):
 
 def self_test():
     print("testing servos")
-    move(c.WRIST, 900)
+    move(c.WRIST, 900, 35)
     msleep(250)
-    move(c.ARM, 1900)
+    move(c.ARM, 1900, 35)
     msleep(250)
-    move(c.ARM, 0)
+    move(c.ARM, 0, 35)
     msleep(250)
-    move(c.WRIST, 2000)
+    move(c.WRIST, 2000, 35)
     msleep(250)
     print("done testing")

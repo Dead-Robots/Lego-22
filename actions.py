@@ -1,5 +1,5 @@
 from kipr import msleep, enable_servos, disable_servos, analog_et, a_button, b_button, \
-    c_button
+    c_button, shut_down_in
 from time import time
 import constants as c
 import utilities as u
@@ -16,9 +16,12 @@ def power_on_self_test():
     else:
         print("I am clone")
     enable_servos()
-    servo.move(c.ARM, c.ARM_MID)
+    servo.move(c.ARM, c.ARM_MID, 35)
     drive.self_test()
     servo.self_test()
+    servo.move(c.TAIL_STICK, c.TAIL_HIDE, 35)
+    servo.move(c.TAIL_STICK, int(c.TAIL_OUT / 2), 35)
+    servo.move(c.TAIL_STICK, c.TAIL_HIDE, 35)
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1)
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 60)
     adjust_height()
@@ -50,10 +53,11 @@ def init():
     enable_servos()
     servo.move(c.WRIST, c.WRIST_START)
     servo.move(c.ARM, c.ARM_PICK_UP_1)
-    # u.wait_4_light()
-    u.wait_for_button()  # wait for light
+    u.wait_4_light()
+    # u.wait_for_button()  # wait for light
     global start_time
     start_time = time()
+    shut_down_in(119)
 
 
 def get_rings_1():
@@ -138,7 +142,8 @@ def deliver_rings_2():
     msleep(250)
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 70 + offset)  # TRY DECREASING THIS VALUE NEXT TIME (HIGHER)
     msleep(250)
-    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 - 50 - offset)  # was 150
+    servo.move(c.WRIST,
+               c.WRIST_DELIVER_RINGS_1 - 90 - offset)  # was 50, try putting wrist back even more next time by subtracting more
     msleep(250)
     drive.distance_straight(40, 13)
     servo.move(c.ARM, c.ARM_PRE_PUSH + offset)
@@ -146,20 +151,44 @@ def deliver_rings_2():
 
 
 def release_tennis_balls():
-    servo.move(c.ARM, c.ARM_PRE_PUSH + offset) # temporary
+    servo.move(c.ARM, c.ARM_PRE_PUSH + offset)  # temporary
     servo.move(c.WRIST, c.WRIST_PUSH - offset)
-    u.wait_for_button()
-    drive.until_line(-70, c.BACK_TOPHAT)
-    drive.distance_straight(-70, 9)
-    drive.pivot(70, 100, "r")
-    drive.until_line(70, c.FRONT_TOPHAT)
-    drive.until_line(70, c.BACK_TOPHAT)
-    drive.pivot(-70, 188, "l")
-    u.wait_for_button()
-    drive.until_line(-70, c.FRONT_TOPHAT)
+    servo.move(c.TAIL_STICK, c.TAIL_HIDE)
+    drive.until_line(-90, c.BACK_TOPHAT, False)
+    drive.blind(-90, -60)
+    msleep(1700)
+    drive.pivot(90, 115, "r")
+    drive.until_line(90, c.FRONT_TOPHAT, False)
+    drive.until_line(90, c.BACK_TOPHAT, False)
+    drive.pivot(-90, 189, "l")
+    drive.until_line(-90, c.FRONT_TOPHAT)
     # move stick
+    servo.move(c.TAIL_STICK, c.TAIL_OUT)
+    msleep(100)
+    drive.distance_straight(-80, 7.5)
+    lift_ball_screen(3)
+    drive.distance_straight(80, 3)
+    drive.pivot(-80, 7, "l")
+    drive.distance_straight(-80, 3)
+    lift_ball_screen(3)
+
+
+def lift_ball_screen(n):
+    for x in range(n):
+        if time() - start_time < 5:
+            servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
+            print("stopped in loop!")
+            shutdown()
+        else:
+            servo.move(c.TAIL_STICK, c.TAIL_LIFT, 70)
+            msleep(250)
+            servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
+            drive.pivot(-70, 8, "l")
+            drive.pivot(70, 8, "l")
+
 
 def shutdown():
     print("run time:", time() - start_time)
     print("Shutting down")
     disable_servos()
+    exit(0)
