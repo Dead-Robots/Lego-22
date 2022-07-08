@@ -15,13 +15,21 @@ ALL PORTS:
 IS_PRIME = not digital(0)
 
 if IS_PRIME:
-    ARM_OFFSET = 0
-    WRIST_OFFSET = -15
+    ARM_OFFSET = -65
+    WRIST_OFFSET = 15
     F = 1.065
+    return_turn = 5 # angle of that one turn on the way back where clone often is too far from the wallnn
+    tennis_ball_spin_1 = 115
+    tennis_ball_spin_2 = 189
+    WRIST_UP_MAX = 2000 + WRIST_OFFSET
 else:
     ARM_OFFSET = 100
     WRIST_OFFSET = 0
     F = 1.02  # 0.995
+    return_turn = 7
+    tennis_ball_spin_1 = 108 # was 115
+    tennis_ball_spin_2 = 180
+    WRIST_UP_MAX = 2047 + WRIST_OFFSET
 
 LEFT_MOTOR = 3
 RIGHT_MOTOR = 2
@@ -37,7 +45,7 @@ WRIST = 1
 
 BLACK = 2000
 
-ARM_UP_MAX = 0 + ARM_OFFSET
+ARM_UP_MAX = 70 + ARM_OFFSET
 ARM_UP = 405 + ARM_OFFSET
 ARM_UP_HIGH = 740 + ARM_OFFSET
 ARM_MID = 890 + ARM_OFFSET
@@ -45,7 +53,7 @@ ARM_DELIVER_RINGS_1 = 1300 + ARM_OFFSET  # 1250
 # ARM_DELIVER_RINGS_2 = 1330 + ARM_OFFSET
 ARM_PICK_UP_1 = 1435 + ARM_OFFSET  # was 1445, 1385
 ARM_PRE_PUSH = 1715 + ARM_OFFSET
-ARM_PICK_UP_2 = 1845 + ARM_OFFSET  # was 1895
+ARM_PICK_UP_2 = 1895 + ARM_OFFSET  # was 1895
 
 WRIST_DELIVER_RINGS_1 = 750 + WRIST_OFFSET
 WRIST_START = 870 + WRIST_OFFSET
@@ -55,7 +63,7 @@ WRIST_PUSH = 1340 + WRIST_OFFSET
 WRIST_PICK_UP_2 = 1225
 WRIST_PICK_UP_1 = 1540 + WRIST_OFFSET
 WRIST_UP = 1710 + WRIST_OFFSET
-WRIST_UP_MAX = 2047 + WRIST_OFFSET
+# WRIST_UP_MAX = 2047 + WRIST_OFFSET
 
 TAIL_HIDE = 2047
 TAIL_OUT = 110

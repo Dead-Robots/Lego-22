@@ -111,7 +111,7 @@ def return_to_rings():
     servo.move(c.WRIST, c.WRIST_UP)
     drive.distance_straight(60, 12)
     drive.until_line(50, c.FRONT_TOPHAT)  # straightens out in case the wheel gets caught
-    drive.pivot(50, 5, "l")
+    drive.pivot(50, c.return_turn, "l")
     drive.until_line(50)
     servo.move(c.WRIST, c.WRIST_PICK_UP_2 + (0 if c.IS_PRIME else 100))
     servo.move(c.ARM, c.ARM_PICK_UP_2)
@@ -143,7 +143,7 @@ def deliver_rings_2():
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 70 + offset)  # TRY DECREASING THIS VALUE NEXT TIME (HIGHER)
     msleep(250)
     servo.move(c.WRIST,
-               c.WRIST_DELIVER_RINGS_1 - 90 - offset)  # was 50, try putting wrist back even more next time by subtracting more
+               c.WRIST_DELIVER_RINGS_1 - 110 - offset)  # was 50, try putting wrist back even more next time by subtracting more
     msleep(250)
     drive.distance_straight(40, 13)
     servo.move(c.ARM, c.ARM_PRE_PUSH + offset)
@@ -157,10 +157,10 @@ def release_tennis_balls():
     drive.until_line(-90, c.BACK_TOPHAT, False)
     drive.blind(-90, -60)
     msleep(1700)
-    drive.pivot(90, 115, "r")
+    drive.pivot(90, c.tennis_ball_spin_1, "r")
     drive.until_line(90, c.FRONT_TOPHAT, False)
     drive.until_line(90, c.BACK_TOPHAT, False)
-    drive.pivot(-90, 189, "l")
+    drive.pivot(-90, c.tennis_ball_spin_2, "l")
     drive.until_line(-90, c.FRONT_TOPHAT)
     # move stick
     servo.move(c.TAIL_STICK, c.TAIL_OUT)
@@ -169,7 +169,7 @@ def release_tennis_balls():
     lift_ball_screen(3)
     drive.distance_straight(80, 3)
     drive.pivot(-80, 7, "l")
-    drive.distance_straight(-80, 3)
+    drive.distance_straight(-80, 3.7) # was 3
     lift_ball_screen(3)
 
 
