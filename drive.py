@@ -1,11 +1,24 @@
 from kipr import msleep, motor_power, analog_et, get_motor_position_counter, \
-    clear_motor_position_counter
+    clear_motor_position_counter, gyro_z
 from time import time
 import constants as c
 import utilities as u
 
-
 # clockwise is positive
+gyro_offset = 0
+
+
+def calibrate_gyro():
+    global gyro_offset
+    s = 0
+    for _ in range(100):
+        s += gyro_z()
+        msleep(10)
+    gyro_offset = s / 100
+
+
+def get_gyro():
+    return gyro_z() - gyro_offset
 
 
 def blind(l_speed: int, r_speed: int):
@@ -55,7 +68,7 @@ def time_straight(power, drive_time, freeze=True):
         pass
 
 
-def distance_straight(power, inches, freeze=True):
+def distance_straight(power, inches, freeze=True, bias=0):
     """
     :param power: range -100 to 100
     :param inches: inches
@@ -65,6 +78,8 @@ def distance_straight(power, inches, freeze=True):
     clear_motor_position_counter(c.RIGHT_MOTOR)
     blind(power, power)
     distance = inches * 180.0
+
+    F = c.F + bias
 
     p = 0.25
     i = 0.04
@@ -81,8 +96,8 @@ def distance_straight(power, inches, freeze=True):
         r_position = abs(get_motor_position_counter(c.RIGHT_MOTOR))
         total_left += l_position
         total_right += r_position
-        p_error = (r_position * c.F - l_position)
-        i_error = total_right * c.F - total_left
+        p_error = (r_position * F - l_position)
+        i_error = total_right * F - total_left
         if power > 0:
             l_speed += int(p * p_error + i * i_error)
             r_speed -= int(p * p_error + i * i_error)
@@ -145,7 +160,6 @@ def until_line(power, sensor=c.BACK_TOPHAT, freeze=True):
         u.freeze_bot()
 
 
-
 def pivot(power, angle, stationary_wheel):
     """
     :param power: range -100 to 100
@@ -177,15 +191,30 @@ def pivot(power, angle, stationary_wheel):
     u.freeze_bot()
 
 
+def gyro_pivot(speed, angle, non_moving_tire):
+    a = 0
+    pt = time()
+    if non_moving_tire == "r":
+        blind(speed, 0)
+    else:
+        blind(0, speed)
+    while abs(a) < abs(angle):
+        now = time()
+        dt = now - pt
+        a += abs(get_gyro()) * dt / 8
+        pt = now
+    u.freeze_bot()
+
+
 def self_test():
     print("testing motors")
     distance_straight(80, 5)
     msleep(250)
     distance_straight(-80, 5)
     msleep(250)
-    pivot(-80, 45, "l")
+    gyro_pivot(-80, 45, "l")
     msleep(250)
-    pivot(-80, 45, "r")
+    gyro_pivot(-80, 45, "r")
     msleep(250)
     until_line(-50, c.FRONT_TOPHAT)
     msleep(250)

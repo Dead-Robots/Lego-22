@@ -22,14 +22,19 @@ if IS_PRIME:
     tennis_ball_spin_1 = 110
     tennis_ball_spin_2 = 180
     WRIST_UP_MAX = 2000 + WRIST_OFFSET
+    WRIST_PICK_UP_2 = 1225 + WRIST_OFFSET
+    TAIL_OUT = 100
+
 else:
-    ARM_OFFSET = 100
-    WRIST_OFFSET = 0
-    F = 1.04  # 1.02, was trying to fix the drift to the right
+    ARM_OFFSET = 0
+    WRIST_OFFSET = 80
+    F = 1.00  # 1.02, was trying to fix the drift to the right
     return_turn = 7
     tennis_ball_spin_1 = 108 # was 115
     tennis_ball_spin_2 = 180
     WRIST_UP_MAX = 2047 + WRIST_OFFSET
+    WRIST_PICK_UP_2 = 1225 + WRIST_OFFSET - 60
+    TAIL_OUT = 110
 
 LEFT_MOTOR = 3
 RIGHT_MOTOR = 2
@@ -60,13 +65,11 @@ WRIST_START = 870 + WRIST_OFFSET
 # WRIST_DELIVER_RINGS_2 = 890 + WRIST_OFFSET
 WRIST_TILT = 1272 + WRIST_OFFSET
 WRIST_PUSH = 1340 + WRIST_OFFSET
-WRIST_PICK_UP_2 = 1225
 WRIST_PICK_UP_1 = 1540 + WRIST_OFFSET
 WRIST_UP = 1710 + WRIST_OFFSET
 # WRIST_UP_MAX = 2047 + WRIST_OFFSET
 
 TAIL_HIDE = 2047
-TAIL_OUT = 110
 TAIL_LIFT = 950
 
 PI = 3.14159
