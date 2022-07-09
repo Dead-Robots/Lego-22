@@ -167,9 +167,9 @@ def release_tennis_balls():
     msleep(100)
     drive.distance_straight(-80, 7.5)
     lift_ball_screen(3)
-    drive.distance_straight(80, 3)
+    drive.distance_straight(80, 5)
     drive.pivot(-80, 7, "l")
-    drive.distance_straight(-80, 3.7) # was 3
+    drive.distance_straight(-80, 3.7) # was 3.7
     lift_ball_screen(3)
 
 
@@ -183,8 +183,8 @@ def lift_ball_screen(n):
             servo.move(c.TAIL_STICK, c.TAIL_LIFT, 70)
             msleep(250)
             servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
-            drive.pivot(-70, 8, "l")
-            drive.pivot(70, 8, "l")
+            drive.pivot(70, 6, "l") # was 8
+            drive.pivot(-70, 6, "l")
 
 
 def shutdown():

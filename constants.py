@@ -15,17 +15,17 @@ ALL PORTS:
 IS_PRIME = not digital(0)
 
 if IS_PRIME:
-    ARM_OFFSET = -65
-    WRIST_OFFSET = 15
+    ARM_OFFSET = 100
+    WRIST_OFFSET = 60
     F = 1.065
     return_turn = 5 # angle of that one turn on the way back where clone often is too far from the wallnn
-    tennis_ball_spin_1 = 115
-    tennis_ball_spin_2 = 189
+    tennis_ball_spin_1 = 110
+    tennis_ball_spin_2 = 180
     WRIST_UP_MAX = 2000 + WRIST_OFFSET
 else:
     ARM_OFFSET = 100
     WRIST_OFFSET = 0
-    F = 1.02  # 0.995
+    F = 1.04  # 1.02, was trying to fix the drift to the right
     return_turn = 7
     tennis_ball_spin_1 = 108 # was 115
     tennis_ball_spin_2 = 180
