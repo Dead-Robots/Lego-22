@@ -24,15 +24,14 @@ def power_on_self_test():
         print("I am clone")
     enable_servos()
     servo.move(c.ARM, c.ARM_MID, 35)
-    u.wait_for_button()
     print("calibrate gryo with btn")
     drive.calibrate_gyro()
-    print('kthnx')
+    print('k thnx')
     drive.self_test()
     servo.self_test()
-    servo.move(c.TAIL_STICK, c.TAIL_HIDE, 35)
-    servo.move(c.TAIL_STICK, int(c.TAIL_OUT / 2), 35)
-    servo.move(c.TAIL_STICK, c.TAIL_HIDE, 35)
+    servo.move(c.TAIL_STICK, c.TAIL_HIDE, 55)
+    servo.move(c.TAIL_STICK, int(c.TAIL_OUT / 2), 55)
+    servo.move(c.TAIL_STICK, c.TAIL_HIDE, 55)
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1)
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 60)
     adjust_delivery_height()
@@ -120,12 +119,12 @@ def get_rings_1():
     print("get rings 1")
     drive.until_line(-50, c.FRONT_TOPHAT)
     if c.IS_PRIME:
-        drive.pivot(50, 19, "l")
+        drive.pivot(50, 13, "l")  # was 19
     else:
         drive.pivot(50, 14, "l")  # was 18
     drive.until_line(50)
     servo.move(c.WRIST, c.WRIST_PICK_UP_1 - pickup_1_offset)
-    drive.pivot(-50, 13, "l")
+    drive.pivot(-50, pc(17, 13), "l")  # change 9:48
     drive.distance_straight(60, 4)
     drive.distance_straight(30, 1)
     servo.move_parallel_with_drive(c.ARM_UP_HIGH, 20)
@@ -138,18 +137,22 @@ def get_rings_1():
 
 def deliver_rings_1():
     print("deliver rings 1")
-    drive.distance_straight(-80, 12, False, pc(0, .06))
-    drive.pivot(50, pc(5, 12), "l")  # was 11
+    drive.distance_straight(-80, 12, False, pc(0.06, 0.06))
+    drive.pivot(50, pc(12, 12), "l")  # was 5 for prime
     drive.until_line(-50)
-    drive.distance_straight(-80, 9, True, pc(0, 0.06))
+    drive.distance_straight(-80, 9, True, pc(0.06, 0.06))
     if c.IS_PRIME:
         pass  # prime working without pivot so don't want to mess with it
     else:
         drive.pivot(50, 5, "l")  # added bc front wheel on clone is not on wall so left side of claw snags on pipe
     # drive.pivot(50, 5, "l")
-    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 100 + delivery_offset)  # -150
-    msleep(500)
-    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 70 - delivery_offset)  # 100
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1_HALFWAY + delivery_offset)
+    msleep(250)
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1_HALFWAY - delivery_offset)
+    msleep(250)
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 + delivery_offset)  # -150
+    msleep(250)
+    servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 - delivery_offset)  # 100
     # servo.move(c.ARM, c.ARM_DELIVER_RINGS_1)
     drive.distance_straight(40, 12.5)  # 12
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 50 + delivery_offset)
@@ -162,7 +165,7 @@ def deliver_rings_1():
 
 def return_to_rings():
     print("return to rings")
-    drive.distance_straight(-60, 10, True, pc(0, 0.06))
+    drive.distance_straight(-60, 10, True, pc(0.06, 0.06))
     servo.move(c.ARM, c.ARM_UP_MAX)
     servo.move(c.WRIST, c.WRIST_UP)
     drive.distance_straight(60, 12)
@@ -175,7 +178,7 @@ def return_to_rings():
 
 def get_rings_2():
     print("get rings 2")
-    drive.pivot(-50, 12, "l")  # angle used to be 15 - test for prime
+    drive.pivot(-50, pc(15, 12), "l")  # angle used to be 15 - test for prime
     drive.distance_straight(60, 6)
     servo.move_parallel_with_drive(c.ARM_UP_HIGH, 25)
     msleep(250)
@@ -187,7 +190,7 @@ def get_rings_2():
 
 def deliver_rings_2():
     print("deliver rings 2")
-    drive.distance_straight(-80, 12, False, pc(0, 0.06))
+    drive.distance_straight(-80, 12, False, pc(0.06, 0.06))
     drive.pivot(50, pc(5, 11), "l")
     drive.until_line(-50)
     drive.distance_straight(-80, 9)
@@ -199,7 +202,7 @@ def deliver_rings_2():
     servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 70 + delivery_offset)  # TRY DECREASING THIS VALUE NEXT TIME (HIGHER)
     msleep(250)
     servo.move(c.WRIST,
-               c.WRIST_DELIVER_RINGS_1 - 110 - delivery_offset)  # was 50, try putting wrist back even more next time by subtracting more
+               c.WRIST_DELIVER_RINGS_1 - delivery_offset)  # was 110, try putting wrist back even more next time by subtracting more
     msleep(250)
     drive.distance_straight(40, 13)
     servo.move(c.ARM, c.ARM_PRE_PUSH + delivery_offset)
@@ -213,20 +216,20 @@ def release_tennis_balls():
     drive.until_line(-90, c.BACK_TOPHAT, False)
     # drive.blind(-90, -60)
     # msleep(1700)
-    drive.distance_straight(-50, 7)  #5.5
-    drive.gyro_pivot(90, 90, "r")
+    drive.distance_straight(-50, 7)  # 5.5
+    drive.gyro_pivot_precise(90, 90, "r")
+    msleep(100)
     drive.until_line(90, c.FRONT_TOPHAT, False)
     drive.until_line(90, c.BACK_TOPHAT, False)
-    drive.gyro_pivot(-90, 180, "l")
+    drive.gyro_pivot_precise(-90, 177, "l")  # was 180, but it drifts to the right consistently on the next drive
     drive.until_line(-90, c.FRONT_TOPHAT)
-    # move stick
     servo.move(c.TAIL_STICK, c.TAIL_OUT)
     msleep(100)
-    drive.distance_straight(-80, 7.5)
+    drive.distance_straight(-80, 9)
     lift_ball_screen(3)
     drive.distance_straight(80, 5)
     drive.pivot(-80, 7, "l")
-    drive.distance_straight(-80, 3.7)  # was 3.7
+    drive.distance_straight(-80, 6)  # was 3.7
     lift_ball_screen(3)
 
 
@@ -249,3 +252,18 @@ def shutdown():
     print("Shutting down")
     disable_servos()
     exit(0)
+
+
+def gyro_test():
+    print("gyro test")
+    drive.calibrate_gyro()
+    drive.gyro_pivot(60, 90, "l")
+    u.wait_for_button()
+    drive.gyro_pivot(60, 90, "l")
+    u.wait_for_button()
+    drive.gyro_pivot(60, 90, "l")
+    u.wait_for_button()
+    drive.gyro_pivot(60, 90, "l")
+    u.wait_for_button()
+    drive.gyro_pivot(60, 90, "l")
+    u.wait_for_button()

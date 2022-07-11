@@ -203,6 +203,45 @@ def gyro_pivot(speed, angle, non_moving_tire):
         dt = now - pt
         a += abs(get_gyro()) * dt / 8
         pt = now
+
+    u.freeze_bot()
+
+
+def gyro_pivot_precise(speed, angle, non_moving_tire):
+    a = 0
+    pt = time()
+    if non_moving_tire == "r":
+        blind(speed, 0)
+    else:
+        blind(0, speed)
+    while abs(a) < abs(angle):
+        now = time()
+        dt = now - pt
+        a += abs(get_gyro()) * dt / 8
+        pt = now
+
+    u.freeze_bot()
+
+    end = time() + 1
+
+    while time() < end:
+        now = time()
+        dt = now - pt
+        a += abs(get_gyro()) * dt / 8
+        pt = now
+
+    while abs(a) > abs(angle): # new code
+        print("in second loop", a)
+        pt = time()
+        if non_moving_tire == "r":
+            blind(-speed, 0)
+            print("drivin")
+        else:
+            blind(0, -speed)
+        now = time()
+        dt = now - pt
+        a -= abs(get_gyro()) * dt / 8
+        pt = now
     u.freeze_bot()
 
 
@@ -216,8 +255,8 @@ def self_test():
     msleep(250)
     gyro_pivot(-80, 45, "r")
     msleep(250)
-    until_line(-50, c.FRONT_TOPHAT)
+    until_line(-80, c.FRONT_TOPHAT)
     msleep(250)
-    until_line(50, c.BACK_TOPHAT)
+    until_line(80, c.BACK_TOPHAT)
     msleep(250)
     print("done testing motors")
