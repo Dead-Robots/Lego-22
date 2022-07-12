@@ -15,7 +15,7 @@ ALL PORTS:
 IS_PRIME = not digital(0)
 
 if IS_PRIME:
-    ARM_OFFSET = 100
+    ARM_OFFSET = 0
     WRIST_OFFSET = 60
     F = 1.065
     return_turn = 5 # angle of that one turn on the way back where clone often is too far from the wallnn
@@ -50,7 +50,7 @@ WRIST = 1
 
 BLACK = 2000
 
-ARM_UP_MAX = 70 + ARM_OFFSET
+ARM_UP_MAX = 105 + ARM_OFFSET
 ARM_UP = 405 + ARM_OFFSET
 ARM_UP_HIGH = 740 + ARM_OFFSET
 ARM_MID = 890 + ARM_OFFSET

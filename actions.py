@@ -137,12 +137,13 @@ def get_rings_1():
 
 def deliver_rings_1():
     print("deliver rings 1")
-    drive.distance_straight(-80, 12, False, pc(0.06, 0.06))
-    drive.pivot(50, pc(12, 12), "l")  # was 5 for prime
+    drive.distance_straight(-80, 12, False, pc(0.04, 0.03))
+    drive.pivot(50, pc(6, 12), "l")  # was 5 for prime
     drive.until_line(-50)
-    drive.distance_straight(-80, 9, True, pc(0.06, 0.06))
+    drive.distance_straight(-80, 9, True, pc(0.00, 0.00))
     if c.IS_PRIME:
-        pass  # prime working without pivot so don't want to mess with it
+        # drive.pivot(-50, 6, "l")
+        pass
     else:
         drive.pivot(50, 5, "l")  # added bc front wheel on clone is not on wall so left side of claw snags on pipe
     # drive.pivot(50, 5, "l")
@@ -190,11 +191,11 @@ def get_rings_2():
 
 def deliver_rings_2():
     print("deliver rings 2")
-    drive.distance_straight(-80, 12, False, pc(0.06, 0.06))
+    drive.distance_straight(-80, 12, False, pc(0.03, 0.03))
     drive.pivot(50, pc(5, 11), "l")
     drive.until_line(-50)
     drive.distance_straight(-80, 9)
-    drive.pivot(50, 5, "l")
+    # drive.pivot(50, 5, "l")
     servo.move(c.ARM, 660)
     msleep(250)
     servo.move(c.WRIST, c.WRIST_UP - 60)
