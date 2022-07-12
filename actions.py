@@ -200,7 +200,7 @@ def deliver_rings_2():
     msleep(250)
     servo.move(c.WRIST, c.WRIST_UP - 60)
     msleep(250)
-    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 - 70 + delivery_offset)  # TRY DECREASING THIS VALUE NEXT TIME (HIGHER)
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 + 30 + delivery_offset)  # TRY DECREASING THIS VALUE NEXT TIME (HIGHER), 70
     msleep(250)
     servo.move(c.WRIST,
                c.WRIST_DELIVER_RINGS_1 - delivery_offset)  # was 110, try putting wrist back even more next time by subtracting more
@@ -224,19 +224,23 @@ def release_tennis_balls():
     drive.until_line(90, c.BACK_TOPHAT, False)
     drive.gyro_pivot_precise(-90, 177, "l")  # was 180, but it drifts to the right consistently on the next drive
     drive.until_line(-90, c.FRONT_TOPHAT)
-    servo.move(c.TAIL_STICK, c.TAIL_OUT)
+    servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
+    servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
     msleep(100)
-    drive.distance_straight(-80, 9)
+    drive.distance_straight(-80, 10.2) # was 9
     lift_ball_screen(3)
+    servo.move(c.TAIL_STICK, c.TAIL_LIFT, 70)
     drive.distance_straight(80, 5)
+    servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
     drive.pivot(-80, 7, "l")
     drive.distance_straight(-80, 6)  # was 3.7
     lift_ball_screen(3)
+    drive.distance_straight(-80, 2) # new
 
 
 def lift_ball_screen(n):
     for x in range(n):
-        if time() - start_time < 5:
+        if time() - start_time < 2:
             servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
             print("stopped in loop!")
             shutdown()
