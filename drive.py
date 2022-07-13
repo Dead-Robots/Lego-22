@@ -112,7 +112,7 @@ def distance_straight(power, inches, freeze=True, bias=0):
         pass
 
 
-def until_line(power, sensor=c.BACK_TOPHAT, freeze=True):
+def until_line(power, sensor=c.BACK_TOPHAT, freeze=True, bias=0):
     clear_motor_position_counter(c.LEFT_MOTOR)
     clear_motor_position_counter(c.RIGHT_MOTOR)
     blind(power, power)
@@ -123,6 +123,7 @@ def until_line(power, sensor=c.BACK_TOPHAT, freeze=True):
     r_speed = power
     total_left = 0
     total_right = 0
+    F = c.F + bias
 
     if power > 0:
         while analog_et(sensor) < c.BLACK:
@@ -133,8 +134,8 @@ def until_line(power, sensor=c.BACK_TOPHAT, freeze=True):
             r_position = abs(get_motor_position_counter(c.RIGHT_MOTOR))
             total_left += l_position
             total_right += r_position
-            p_error = (r_position * c.F - l_position)
-            i_error = total_right * c.F - total_left
+            p_error = (r_position * F - l_position)
+            i_error = total_right * F - total_left
             l_speed += int(p * p_error + i * i_error)
             r_speed -= int(p * p_error + i * i_error)
             blind(l_speed, r_speed)
@@ -148,8 +149,8 @@ def until_line(power, sensor=c.BACK_TOPHAT, freeze=True):
             r_position = abs(get_motor_position_counter(c.RIGHT_MOTOR))
             total_left += l_position
             total_right += r_position
-            p_error = (r_position * c.F - l_position)
-            i_error = total_right * c.F - total_left
+            p_error = (r_position * F - l_position)
+            i_error = total_right * F - total_left
             # print(l_position, r_position, p_error)
             # print(total_left, total_right)
             l_speed -= int(p * p_error + i * i_error)

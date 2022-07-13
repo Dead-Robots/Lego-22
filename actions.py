@@ -224,14 +224,17 @@ def release_tennis_balls():
     drive.distance_straight(-50, 5)
     drive.pivot(80, 5, "l")
     drive.until_line(90, c.BACK_TOPHAT, False)
-    drive.distance_straight(-50, 7) # same place but squared against the wall
+    drive.distance_straight(-50, 7) # same place as before but squared against the wall
 
+    servo.move(c.ARM, c.ARM_UP_MAX)
+    msleep(100)
     drive.gyro_pivot_precise(90, 90, "r")
     msleep(100)
-    drive.until_line(90, c.FRONT_TOPHAT, False)
-    drive.until_line(90, c.BACK_TOPHAT, False)
+    drive.until_line(50, c.FRONT_TOPHAT, True, 0.085)
+    drive.until_line(50, c.BACK_TOPHAT, True, 0.085)
     drive.gyro_pivot_precise(-90, 177, "l")  # was 180, but it drifts to the right consistently on the next drive
-    drive.until_line(-90, c.FRONT_TOPHAT)
+    msleep(100)
+    drive.until_line(-50, c.FRONT_TOPHAT, True, 0.085)
     servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
     servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
     msleep(100)
