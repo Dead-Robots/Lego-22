@@ -200,10 +200,12 @@ def deliver_rings_2():
     msleep(250)
     servo.move(c.WRIST, c.WRIST_UP - 60)
     msleep(250)
-    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 + 30 + delivery_offset)  # TRY DECREASING THIS VALUE NEXT TIME (HIGHER), 70
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 + 0 + delivery_offset)  # TRY DECREASING THIS VALUE NEXT TIME (HIGHER), 70
     msleep(250)
     servo.move(c.WRIST,
                c.WRIST_DELIVER_RINGS_1 - delivery_offset)  # was 110, try putting wrist back even more next time by subtracting more
+    msleep(250)
+    servo.move(c.ARM, c.ARM_DELIVER_RINGS_1 + 30 + delivery_offset)  # new
     msleep(250)
     drive.distance_straight(40, 13)
     servo.move(c.ARM, c.ARM_PRE_PUSH + delivery_offset)
@@ -217,7 +219,13 @@ def release_tennis_balls():
     drive.until_line(-90, c.BACK_TOPHAT, False)
     # drive.blind(-90, -60)
     # msleep(1700)
-    drive.distance_straight(-50, 7)  # 5.5
+    drive.distance_straight(-50, 5)  # 7
+    drive.pivot(-80, 5, "l")
+    drive.distance_straight(-50, 5)
+    drive.pivot(80, 5, "l")
+    drive.until_line(90, c.BACK_TOPHAT, False)
+    drive.distance_straight(-50, 7) # same place but squared against the wall
+
     drive.gyro_pivot_precise(90, 90, "r")
     msleep(100)
     drive.until_line(90, c.FRONT_TOPHAT, False)
@@ -227,15 +235,21 @@ def release_tennis_balls():
     servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
     servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
     msleep(100)
-    drive.distance_straight(-80, 10.2) # was 9
-    lift_ball_screen(3)
-    servo.move(c.TAIL_STICK, c.TAIL_LIFT, 70)
+    drive.distance_straight(-80, 9.6)  # was 9
+    lift_ball_screen(2)
+    servo.move(c.TAIL_STICK, c.TAIL_HALF, 70)
     drive.distance_straight(80, 5)
     servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
     drive.pivot(-80, 7, "l")
-    drive.distance_straight(-80, 6)  # was 3.7
-    lift_ball_screen(3)
-    drive.distance_straight(-80, 2) # new
+    drive.distance_straight(-80, 5)  # was 6
+    lift_ball_screen(2)  # was 3
+    servo.move(c.TAIL_STICK, c.TAIL_HALF, 70)  # new
+    drive.distance_straight(80, 5)
+    servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
+    drive.pivot(-80, 7, "r")
+    lift_ball_screen(2)
+    drive.distance_straight(80, 3)
+    print("finished run!")
 
 
 def lift_ball_screen(n):
