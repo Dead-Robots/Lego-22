@@ -234,21 +234,21 @@ def release_tennis_balls():
 
     msleep(100)
     drive.gyro_pivot_precise(90, 90, "r")
-    msleep(100)
+    # msleep(100)
     drive.until_line(50, c.FRONT_TOPHAT, True, 0.05) # 0.06
     drive.until_line(50, c.BACK_TOPHAT, True, 0.045) # 0.085
     drive.gyro_pivot_precise(-90, 180, "l")  # was 180, but it drifts to the right consistently on the next drive
-    msleep(100)
+    # msleep(100)
     drive.until_line(-50, c.FRONT_TOPHAT, True, 0.045) # was 0.05
     servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
     servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
-    msleep(100)
+    # msleep(100)
     drive.distance_straight(-80, 9)  # was 9.6, 9, 8.5, drive where the caster ball gets stuck
     lift_ball_screen(2)
     servo.move(c.TAIL_STICK, c.TAIL_HALF, 70)
     drive.distance_straight(80, 5)
     servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
-    drive.pivot(-80, 7, "l")
+    drive.pivot(-80, 5, "l") # WAS 7
     drive.distance_straight(-80, 5)  # was 6
     lift_ball_screen(2)  # was 3
     servo.move(c.TAIL_STICK, c.TAIL_HALF, 70)  # new

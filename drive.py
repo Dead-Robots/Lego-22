@@ -223,7 +223,7 @@ def gyro_pivot_precise(speed, angle, non_moving_tire):
 
     u.freeze_bot()
 
-    end = time() + 1
+    end = time() + 0.250
 
     while time() < end:
         now = time()
