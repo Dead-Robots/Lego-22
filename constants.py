@@ -34,7 +34,7 @@ else:
     tennis_ball_spin_2 = 180
     WRIST_UP_MAX = 2047 + WRIST_OFFSET
     WRIST_PICK_UP_2 = 1225 + WRIST_OFFSET - 60
-    TAIL_OUT = 0
+    TAIL_OUT = 100
 
 LEFT_MOTOR = 3
 RIGHT_MOTOR = 2

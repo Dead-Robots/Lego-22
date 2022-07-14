@@ -161,6 +161,7 @@ def deliver_rings_1():
     drive.distance_straight(40, 0.5)
     servo.move(c.WRIST, c.WRIST_DELIVER_RINGS_1 + 30 - delivery_offset)
     servo.move(c.ARM, c.ARM_PRE_PUSH + delivery_offset)
+    servo.move(c.ARM, c.ARM_PRE_PUSH + 20 + delivery_offset) # new
     servo.move(c.WRIST, c.WRIST_PUSH - delivery_offset)
 
 
@@ -220,25 +221,29 @@ def release_tennis_balls():
     # drive.blind(-90, -60)
     # msleep(1700)
     drive.distance_straight(-50, 5)  # 7
-    drive.pivot(-80, 5, "l")
-    drive.distance_straight(-50, 5)
-    drive.pivot(80, 5, "l")
-    drive.until_line(90, c.BACK_TOPHAT, False)
-    drive.distance_straight(-50, 7) # same place as before but squared against the wall
 
     servo.move(c.ARM, c.ARM_UP_MAX)
+    servo.move(c.WRIST, c.WRIST_UP)
+
+    drive.pivot(-80, 5, "l")
+    drive.distance_straight(-50, 5) # square up against the side wall
+    drive.pivot(80, 5, "l")
+
+    drive.until_line(90, c.BACK_TOPHAT, False)
+    drive.distance_straight(-50, 7.5) # same place as before but squared against the wall, was 7, made drive back longer so that the robot is to the right of the bump
+
     msleep(100)
     drive.gyro_pivot_precise(90, 90, "r")
     msleep(100)
-    drive.until_line(50, c.FRONT_TOPHAT, True, 0.085)
-    drive.until_line(50, c.BACK_TOPHAT, True, 0.085)
-    drive.gyro_pivot_precise(-90, 177, "l")  # was 180, but it drifts to the right consistently on the next drive
+    drive.until_line(50, c.FRONT_TOPHAT, True, 0.05) # 0.06
+    drive.until_line(50, c.BACK_TOPHAT, True, 0.045) # 0.085
+    drive.gyro_pivot_precise(-90, 180, "l")  # was 180, but it drifts to the right consistently on the next drive
     msleep(100)
-    drive.until_line(-50, c.FRONT_TOPHAT, True, 0.085)
+    drive.until_line(-50, c.FRONT_TOPHAT, True, 0.045) # was 0.05
     servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
     servo.move(c.TAIL_STICK, c.TAIL_OUT, 70)
     msleep(100)
-    drive.distance_straight(-80, 9.6)  # was 9
+    drive.distance_straight(-80, 9)  # was 9.6, 9, 8.5, drive where the caster ball gets stuck
     lift_ball_screen(2)
     servo.move(c.TAIL_STICK, c.TAIL_HALF, 70)
     drive.distance_straight(80, 5)
